@@ -1,0 +1,21 @@
+.navbar {
+  padding: 0 20px;
+  background-image: linear-gradient(to bottom, #069BE5, #3ca6e5);
+  height: 50px;
+}
+
+.uk-navbar-nav > li > a {
+  min-height: 0;
+  color: white;
+}
+
+.sign-out-button {
+  border-radius: 5px;
+  background-color: transparent;
+  border: 2px solid grey;
+  padding: 0 10px;
+}
+
+.sign-out-button:hover {
+  background-color: #72b7ff;
+}

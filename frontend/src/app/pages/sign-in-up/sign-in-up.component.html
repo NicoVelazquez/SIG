@@ -1,0 +1,22 @@
+<div class="main-container">
+
+
+  <img class="login-logo" src="./assets/logo-login.png">
+
+  <div class="card uk-width-1-2">
+
+    <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+      <div class="uk-navbar-center">
+        <ul class="uk-navbar-nav" id="sign-nav">
+          <li class="uk-active"><a (click)="signIn()">Iniciar Sesión</a></li>
+<!--          <li><a (click)="signUp()">Crear Cuenta</a></li>-->
+        </ul>
+      </div>
+    </nav>
+
+    <app-sign-in *ngIf="tab == 'signIn'"></app-sign-in>
+    <app-sign-up *ngIf="tab == 'signUp'"></app-sign-up>
+
+  </div>
+
+</div>

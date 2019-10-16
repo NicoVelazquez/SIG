@@ -1,0 +1,35 @@
+<div class="modal-body uk-modal-body">
+
+  <form [formGroup]="signInForm">
+    <div class="uk-margin">
+      <input class="uk-input uk-form-width-medium uk-form-large uk-width-1-1" type="text" id="email"
+             formControlName="email" placeholder="Email"
+             pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+    </div>
+
+    <div class="uk-margin uk-margin-remove-bottom">
+      <div class="uk-inline uk-width-1-1">
+        <a class="uk-form-icon uk-form-icon-flip" uk-icon="icon: unlock" (click)="showPassword()"></a>
+        <input class="uk-input uk-form-width-medium uk-form-large uk-width-1-1"
+               type="{{showPass ? 'text' : 'password' }}"
+               id="password" formControlName="password" placeholder="Contraseña (min. 8 caracteres)"
+               pattern=".{8,}">
+      </div>
+    </div>
+
+    <div *ngIf="invalidEmailOrPassword" class="warning uk-margin-small-top">
+      Usuario o contraseña incorrecta.
+    </div>
+
+    <button class="uk-button uk-button-primary uk-width-1-1 uk-margin-small" (click)="signIn()"
+            [disabled]="signInForm.invalid">
+      Entrar
+    </button>
+
+  </form>
+
+  <!--  <div class="uk-flex uk-flex-center uk-margin-small-bottom">-->
+  <!--    <button class="uk-button uk-button-text uk-width-1-1">¿Olvidaste tu contraseña?</button>-->
+  <!--  </div>-->
+
+</div>

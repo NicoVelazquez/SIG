@@ -1,0 +1,38 @@
+<div class="client-container">
+
+  <div class="header uk-flex uk-flex-around uk-margin-medium-top">
+    <h2 class="uk-margin-remove">Solicitudes de Devolución</h2>
+    <button class="uk-button uk-button-primary back" (click)="tab = 'application'" *ngIf="tab === 'list'">Nueva
+      Solicitud
+    </button>
+    <button class="uk-button uk-button-secondary back" (click)="tab = 'list'" *ngIf="tab === 'application'">Volver a
+      lista
+    </button>
+  </div>
+
+  <hr>
+
+  <div class="table-container uk-flex uk-flex-center uk-margin-medium-top" *ngIf="tab === 'list'">
+    <table class="uk-table uk-table-striped table" id="table">
+      <thead>
+      <tr>
+        <th class="admin--heading" *ngFor="let header of headers">{{header}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="row" *ngFor="let a of applications">
+        <td>{{a?.name}}</td>
+        <td>{{a?.lastname}}</td>
+        <td>{{a?.email}}</td>
+        <td>{{a?.type}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table uk-flex uk-flex-center uk-margin-medium-top" *ngIf="tab === 'application'">
+
+  </div>
+
+
+</div>

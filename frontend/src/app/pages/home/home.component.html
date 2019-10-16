@@ -1,0 +1,3 @@
+<app-client *ngIf="authService.isClient()"></app-client>
+
+<app-manager *ngIf="!authService.isClient()"></app-manager>

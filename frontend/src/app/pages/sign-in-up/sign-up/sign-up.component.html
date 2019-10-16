@@ -1,0 +1,45 @@
+<div class="modal-body uk-modal-body">
+
+  <form [formGroup]="signUpForm">
+    <div class="uk-margin">
+      <input class="uk-input uk-form-width-medium uk-form-large uk-width-1-1" type="text" id="email"
+             formControlName="email" placeholder="Email"
+             pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+      <div *ngIf="(email.invalid && (email.dirty || email.touched) || invalidEmail)" class="warning">
+        Email invalido o ya en uso.
+      </div>
+    </div>
+
+    <div class="uk-margin">
+      <div class="uk-inline uk-width-1-1">
+        <a class="uk-form-icon uk-form-icon-flip" uk-icon="icon: unlock" (click)="showPassword()"></a>
+        <input class="uk-input uk-form-width-medium uk-form-large uk-width-1-1"
+               type="{{showPass ? 'text' : 'password' }}"
+               id="password" formControlName="password" placeholder="Contraseña (min. 8 caracteres)"
+               pattern=".{8,}">
+      </div>
+    </div>
+
+    <div class="uk-margin">
+      <div class="uk-inline uk-width-1-1">
+        <a class="uk-form-icon uk-form-icon-flip" uk-icon="icon: unlock" (click)="showCPassword()"></a>
+        <input class="uk-input uk-form-width-medium uk-form-large uk-width-1-1"
+               type="{{showCPass ? 'text' : 'password' }}"
+               id="confirmPassword" formControlName="confirmPassword" placeholder="Confirmar contraseña"
+               pattern=".{8,}">
+      </div>
+    </div>
+
+    <button class="uk-button uk-button-primary uk-width-1-1 uk-margin-small-bottom" [disabled]="signUpForm.invalid"
+            (click)="onCreateAccount()">
+      Continuar
+    </button>
+
+  </form>
+
+</div>
+
+<!--<div class="uk-modal-footer uk-text-right">-->
+<!--<button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>-->
+<!--<button class="uk-button uk-button-primary" type="button">Save</button>-->
+<!--</div>-->
