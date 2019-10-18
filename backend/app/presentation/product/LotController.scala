@@ -1,11 +1,12 @@
 package presentation.product
 
-import javax.inject.Inject
-import play.api.mvc.{AbstractController, ControllerComponents}
+import persistence.services.product.LotService
+import persistence.tables.product.Lot
+import play.api.mvc.ControllerComponents
+import presentation.ABMController
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
 
-class LotController @Inject()(cc: ControllerComponents)(implicit ex: ExecutionContext)
-  extends AbstractController(cc) {
-
+class LotController(cc: ControllerComponents) extends ABMController[Lot](cc) {
+  service = new LotService()
 }

@@ -1,11 +1,12 @@
 package presentation.note
 
-import javax.inject.Inject
-import play.api.mvc.{AbstractController, ControllerComponents}
+import persistence.services.note.NoteService
+import persistence.tables.note.Note
+import play.api.mvc.ControllerComponents
+import presentation.ABMController
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
 
-class NoteController @Inject()(cc: ControllerComponents)(implicit ex: ExecutionContext)
-  extends AbstractController(cc) {
-
+class NoteController(cc: ControllerComponents) extends ABMController[Note](cc) {
+  service = new NoteService()
 }

@@ -1,11 +1,12 @@
 package presentation.documents
 
-import javax.inject.Inject
-import play.api.mvc.{AbstractController, ControllerComponents}
+import persistence.services.documents.TrackingService
+import persistence.tables.documents.Tracking
+import play.api.mvc.ControllerComponents
+import presentation.ABMController
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
 
-class TrackingController @Inject()(cc: ControllerComponents)(implicit ex: ExecutionContext)
-  extends AbstractController(cc) {
-
+class TrackingController(cc: ControllerComponents) extends ABMController[Tracking](cc) {
+  service = new TrackingService()
 }

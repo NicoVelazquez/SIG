@@ -1,11 +1,12 @@
 package presentation.user
 
-import javax.inject.Inject
-import play.api.mvc.{AbstractController, ControllerComponents}
+import persistence.services.user.LogisticOperatorService
+import persistence.tables.user.LogisticOperator
+import play.api.mvc.ControllerComponents
+import presentation.ABMController
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
 
-class LogisticOperatorController @Inject()(cc: ControllerComponents)(implicit ex: ExecutionContext)
-  extends AbstractController(cc) {
-
+class LogisticOperatorController(cc: ControllerComponents) extends ABMController[LogisticOperator](cc) {
+  service = new LogisticOperatorService()
 }
