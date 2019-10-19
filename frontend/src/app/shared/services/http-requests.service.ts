@@ -9,12 +9,27 @@ export class HttpRequestsService {
   // TODO - setear url para pegarle al back
   url = 'http://localhost:9000';
 
+  currentUser: any;
+
   constructor(private http: HttpClient) {
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
-  getClientApplications(clientId: any): Promise<any> {
+  signIn(email: string, password: string): Promise<any> {
     // TODO - descomentar y borrar
-    // return this.http.get<any[]>(`${this.url}/client/${clientId}/applications`).toPromise();
+    // const credentials = {email, password};
+    // return this.http.post<any[]>(`${this.url}/login`, credentials).toPromise();
+
+    return Promise.resolve({id: 1, role: 'client'});
+  }
+
+  // ---------------------------------------------------------------------------------------------------
+  // CLIENT
+  // ---------------------------------------------------------------------------------------------------
+
+  getClientApplications(): Promise<any> {
+    // TODO - descomentar y borrar
+    // return this.http.get<any[]>(`${this.url}/client/${this.currentUser.id}/applications`).toPromise();
 
     return Promise.resolve(
       [
@@ -23,9 +38,9 @@ export class HttpRequestsService {
     );
   }
 
-  getClientProducts(clientId: any): Promise<any> {
+  getClientProducts(): Promise<any> {
     // TODO - descomentar y borrar
-    // return this.http.get<any[]>(`${this.url}/client/${clientId}/products`).toPromise();
+    // return this.http.get<any[]>(`${this.url}/client/${this.currentUser.id}/products`).toPromise();
 
     return Promise.resolve(
       [
@@ -37,12 +52,16 @@ export class HttpRequestsService {
     );
   }
 
-  createClientApplication(clientId: any, application: any): Promise<any> {
+  createClientApplication(application: any): Promise<any> {
     // TODO - descomentar y borrar
-    // return this.http.post<any[]>(`${this.url}/client/${clientId}/applications`, application).toPromise();
+    // return this.http.post<any[]>(`${this.url}/client/${this.currentUser.id}/applications`, application).toPromise();
 
-    return Promise.resolve(99);
+    return Promise.resolve({id: 99});
   }
+
+  // ---------------------------------------------------------------------------------------------------
+  // MANAGER
+  // ---------------------------------------------------------------------------------------------------
 
   getManagerApplications(): Promise<any> {
     // TODO - descomentar y borrar

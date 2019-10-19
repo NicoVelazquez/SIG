@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AuthService} from '../../../shared/services/auth.service';
 import {Router} from '@angular/router';
+import {HttpRequestsService} from '../../../shared/services/http-requests.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -15,7 +16,8 @@ export class SignInComponent implements OnInit {
 
   invalidEmailOrPassword = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private rs: HttpRequestsService,
+              private router: Router) {
     this.signInForm = fb.group({
       email: new FormControl(null, [Validators.required]),
       password: new FormControl(null, [Validators.required]),
@@ -39,7 +41,10 @@ export class SignInComponent implements OnInit {
   }
 
   signIn() {
-    this.authService.signInWithEmailAndPassword(this.signInForm.value.email, this.signInForm.value.password).then(() => {
+    this.rs.signIn(this.signInForm.value.email, this.signInForm.value.password).then(data => {
+      const user = {id: data.id, role: data.role};
+      localStorage.setItem('user', JSON.stringify(user));
+
       this.router.navigate(['/home']).then(() => {
         this.signInForm.reset();
       });

@@ -31,7 +31,7 @@ export class NewApplicationComponent implements OnInit {
       date: this.parseDate(new Date(Date.now()))
     });
 
-    this.rs.getClientProducts(1).then(data => this.products = data);
+    this.rs.getClientProducts().then(data => this.products = data);
   }
 
   parseDate(date: Date): string {
@@ -63,8 +63,8 @@ export class NewApplicationComponent implements OnInit {
     const newApplication = this.applicationForm.value;
     newApplication.produts = this.selectedProducts;
     newApplication.state = 'Enviada';
-    await this.rs.createClientApplication(1, newApplication)
-      .then(newId => newApplication.id = newId)
+    await this.rs.createClientApplication(newApplication)
+      .then(data => newApplication.id = data.id)
       .catch(err => {
         console.log('Error en creacion de aplicacion');
       });

@@ -22,7 +22,7 @@ export class ClientComponent implements OnInit {
 
   ngOnInit() {
     // TODO - definir de donde voy a obtener el id del cliente (podria estar en el LocalStorage al hacer el login)
-    this.rs.getClientApplications(1).then(data => {
+    this.rs.getClientApplications().then(data => {
       this.applications = data;
     });
   }

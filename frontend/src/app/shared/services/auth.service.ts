@@ -27,14 +27,4 @@ export class AuthService {
       return (JSON.parse(localStorage.getItem('user'))).role;
     }
   }
-
-  signInWithEmailAndPassword(mail: string, password: string): Promise<any> {
-    const user = {email: mail, role: 'client'};
-    localStorage.setItem('user', JSON.stringify(user));
-    return Promise.resolve(true);
-  }
-
-  // createUserWithEmailAndPassword(username: string, password: string): Promise<any> {
-  //   return Promise.resolve(false);
-  // }
 }
