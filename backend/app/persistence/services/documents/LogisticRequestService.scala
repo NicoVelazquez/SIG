@@ -5,14 +5,43 @@ import persistence.tables.documents.LogisticRequest
 
 import scala.concurrent.Future
 
-object LogisticRequestService extends Service[LogisticRequest] {
-  override def create(t: LogisticRequest): Future[Int] = ???
+class LogisticRequestService extends Service[LogisticRequest] {
 
-  override def update(t: LogisticRequest): Future[Boolean] = ???
+  import persistence.db.SqlController.ctx._
+  import persistence.db.SqlController.{ctx, exec}
 
-  override def delete(id: Int): Future[Boolean] = ???
+  override def create(t: LogisticRequest): Future[Int] =
+    ctx.run(quote(querySchema[LogisticRequest]("logistic_request_table"))
+      .insert(
+        _.date -> t.date,
+        _.logisticOperatorId -> t.logisticOperatorId,
+        _.returnRequestId -> t.returnRequestId,
+        _.trackingId -> t.trackingId
+      ).onConflictIgnore.returning(_.id))
 
-  override def get(id: Int): Future[Option[LogisticRequest]] = ???
+  override def update(t: LogisticRequest): Future[Boolean] =
+    ctx.run(quote(querySchema[LogisticRequest]("logistic_request_table"))
+      .filter(_.id == lift(t.id))
+      .update(
+        _.date -> t.date,
+        _.logisticOperatorId -> t.logisticOperatorId,
+        _.returnRequestId -> t.returnRequestId,
+        _.trackingId -> t.trackingId
+      )
+    ).map {
+      case 1 => true
+      case _ => false
+    }
 
-  override def getAll: Future[List[LogisticRequest]] = ???
+  override def delete(id: Int): Future[Boolean] =
+    ctx.run(quote(querySchema[LogisticRequest]("logistic_request_table")).filter(_.id == lift(id)).delete).map {
+      case 1 => true
+      case _ => false
+    }
+
+  override def get(id: Int): Future[Option[LogisticRequest]] =
+    ctx.run(quote(querySchema[LogisticRequest]("logistic_request_table")).filter(_.id == lift(id))).map(_.headOption)
+
+  override def getAll: Future[List[LogisticRequest]] =
+    ctx.run(quote(querySchema[LogisticRequest]("logistic_request_table")))
 }

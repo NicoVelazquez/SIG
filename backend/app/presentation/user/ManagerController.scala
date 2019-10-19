@@ -1,11 +1,12 @@
 package presentation.user
 
-import javax.inject.Inject
-import play.api.mvc.{AbstractController, ControllerComponents}
+import persistence.services.user.ManagerService
+import persistence.tables.user.Manager
+import play.api.mvc.ControllerComponents
+import presentation.ABMController
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
 
-class ManagerController @Inject()(cc: ControllerComponents)(implicit ex: ExecutionContext)
-  extends AbstractController(cc) {
-
+class ManagerController(cc: ControllerComponents) extends ABMController[Manager](cc) {
+  service = new ManagerService()
 }

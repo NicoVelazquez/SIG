@@ -1,11 +1,12 @@
 package presentation.documents
 
-import javax.inject.Inject
-import play.api.mvc.{AbstractController, ControllerComponents}
+import persistence.services.documents.ReturnRequestService
+import persistence.tables.documents.ReturnRequest
+import play.api.mvc.ControllerComponents
+import presentation.ABMController
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
 
-class ReturnRequestController @Inject()(cc: ControllerComponents)(implicit ex: ExecutionContext)
-  extends AbstractController(cc) {
-
+class ReturnRequestController(cc: ControllerComponents) extends ABMController[ReturnRequest](cc) {
+  service = new ReturnRequestService()
 }

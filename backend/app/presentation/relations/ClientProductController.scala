@@ -1,11 +1,12 @@
 package presentation.relations
 
-import javax.inject.Inject
-import play.api.mvc.{AbstractController, ControllerComponents}
+import persistence.services.relations.ClientProductService
+import persistence.tables.relations.ClientProduct
+import play.api.mvc.ControllerComponents
+import presentation.ABMController
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
 
-class ClientProductController @Inject()(cc: ControllerComponents)(implicit ex: ExecutionContext)
-  extends AbstractController(cc) {
-
+class ClientProductController(cc: ControllerComponents) extends ABMController[ClientProduct](cc) {
+  service = new ClientProductService()
 }
