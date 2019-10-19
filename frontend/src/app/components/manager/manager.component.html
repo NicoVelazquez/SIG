@@ -1,38 +1,110 @@
 <div class="client-container">
 
-  <div class="header uk-flex uk-flex-around uk-margin-medium-top">
-    <h2 class="uk-margin-remove">Solicitudes de Devolución</h2>
-  </div>
+  <h2 style="margin: 20px 20px 20px 6%">Solicitudes de Devolución</h2>
 
-  <hr>
+  <div class="tabs-container uk-flex uk-flex-center">
 
-  <div class="uk-margin-medium-top uk-flex uk-flex-center">
-    <input class="uk-input" style="width: 70%" type="text" placeholder="Buscar por cliente..."
-    [(ngModel)]="client" (keyup)="filterApplications()">
-  </div>
+    <ul class="uk-margin-medium-bottom" style="width: 90%" uk-tab>
+      <li id="all" class="uk-active" (click)="switchTab('all')"><a>Todas</a></li>
+      <li id="new" (click)="switchTab('new')"><a>Nuevas</a></li>
+      <li id="warehouse" (click)="switchTab('warehouse')"><a>En almacen</a></li>
+      <li id="accepted" (click)="switchTab('controlled')"><a>Controladas</a></li>
 
-  <div class="table-container uk-flex uk-flex-center uk-margin-small-top" *ngIf="tab === 'list'">
-
-    <table class="uk-table uk-table-striped table" id="table">
-      <thead>
-      <tr>
-        <th class="admin--heading" *ngFor="let header of headers">{{header}}</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr class="row" *ngFor="let a of filteredApplications">
-        <td>{{a?.name}}</td>
-        <td>{{a?.lastname}}</td>
-        <td>{{a?.email}}</td>
-        <td>{{a?.type}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="table uk-flex uk-flex-center uk-margin-medium-top" *ngIf="tab === 'application'">
+      <li id="notes" class="uk-position-right" (click)="tab = 'notes'"><a>Notas</a></li>
+    </ul>
 
   </div>
+
+  <div class="all-container">
+
+    <div class="uk-flex uk-flex-center">
+      <input class="uk-input" style="width: 70%" type="text" placeholder="Buscar por cliente..."
+             [(ngModel)]="clientSearch" (keyup)="filterApplications()">
+    </div>
+
+    <div class="table-container uk-flex uk-flex-center uk-margin-small-top">
+
+      <table class="uk-table uk-table-striped table" id="table">
+        <thead>
+        <tr>
+          <th *ngFor="let header of headers">{{header}}</th>
+          <th>Ver</th>
+          <th class="uk-flex uk-flex-center" *ngIf="tab === 'controlled'">Generar Nota</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="row" *ngFor="let a of filteredApplications">
+          <td>{{a?.id}}</td>
+          <td>{{a?.client}}</td>
+          <td>{{a?.date | date: 'dd/MM/yyyy - hh:mm'}}</td>
+          <td>{{a?.state}}</td>
+          <td><a class="uk-text-center" uk-icon="icon: cart" (click)="reviewApplication(a)"></a></td>
+          <td *ngIf="tab === 'controlled'" class="uk-flex uk-flex-center">
+            <a class="uk-text-center" uk-icon="icon: pencil" (click)="generateNote(a?.id)"></a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!--  <div class="accepted-container" *ngIf="tab === 'accepted'">-->
+
+  <!--    <div class="uk-flex uk-flex-center">-->
+  <!--      <input class="uk-input" style="width: 70%" type="text" placeholder="Buscar por cliente..."-->
+  <!--             [(ngModel)]="clientSearch" (keyup)="filterApplications()">-->
+  <!--    </div>-->
+
+  <!--    <div class="table-container uk-flex uk-flex-center uk-margin-small-top">-->
+
+  <!--      <table class="uk-table uk-table-striped table">-->
+  <!--        <thead>-->
+  <!--        <tr>-->
+  <!--          <th class="admin&#45;&#45;heading" *ngFor="let header of headers">{{header}}</th>-->
+  <!--        </tr>-->
+  <!--        </thead>-->
+  <!--        <tbody>-->
+  <!--        <tr class="row" *ngFor="let a of filteredApplications">-->
+  <!--          <td>{{a?.id}}</td>-->
+  <!--          <td>{{a?.client}}</td>-->
+  <!--          <td>{{a?.day | date: 'dd/MM/yyyy - hh:mm'}}</td>-->
+  <!--          <td>{{a?.state}}</td>-->
+  <!--        </tr>-->
+  <!--        </tbody>-->
+  <!--      </table>-->
+  <!--    </div>-->
+
+  <!--  </div>-->
+
+  <!--  <div class="warehouse-container" *ngIf="tab === 'warehouse'">-->
+
+  <!--    <div class="uk-flex uk-flex-center">-->
+  <!--      <input class="uk-input" style="width: 70%" type="text" placeholder="Buscar por cliente..."-->
+  <!--             [(ngModel)]="clientSearch" (keyup)="filterApplications()">-->
+  <!--    </div>-->
+
+  <!--    <div class="table-container uk-flex uk-flex-center uk-margin-small-top">-->
+
+  <!--      <table class="uk-table uk-table-striped table">-->
+  <!--        <thead>-->
+  <!--        <tr>-->
+  <!--          <th class="admin&#45;&#45;heading" *ngFor="let header of headers">{{header}}</th>-->
+  <!--          <th class="admin&#45;&#45;heading">Ver</th>-->
+  <!--        </tr>-->
+  <!--        </thead>-->
+  <!--        <tbody>-->
+  <!--        <tr class="row" *ngFor="let a of filteredApplications">-->
+  <!--          <td>{{a?.id}}</td>-->
+  <!--          <td>{{a?.client}}</td>-->
+  <!--          <td>{{a?.day | date: 'dd/MM/yyyy - hh:mm'}}</td>-->
+  <!--          <td>{{a?.state}}</td>-->
+  <!--          <td><a uk-icon="icon: cart" (click)="reviewApplication(a?.id)"></a></td>-->
+  <!--        </tr>-->
+  <!--        </tbody>-->
+  <!--      </table>-->
+  <!--    </div>-->
+  <!--  </div>-->
 
 
 </div>

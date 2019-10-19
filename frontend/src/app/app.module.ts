@@ -12,6 +12,9 @@ import { ClientComponent } from './components/client/client.component';
 import { ManagerComponent } from './components/manager/manager.component';
 import { HomeComponent } from './pages/home/home.component';
 import {NavbarComponent} from './components/navbar/navbar.component';
+import { ReviewApplicationComponent } from './components/manager/review-application/review-application.component';
+import { NewApplicationComponent } from './components/client/new-application/new-application.component';
+import { CreateNoteComponent } from './components/manager/create-note/create-note.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import {NavbarComponent} from './components/navbar/navbar.component';
     ClientComponent,
     ManagerComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+    ReviewApplicationComponent,
+    NewApplicationComponent,
+    CreateNoteComponent
   ],
   imports: [
     BrowserModule,

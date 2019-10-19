@@ -1,0 +1,24 @@
+.form {
+  width: 50%;
+}
+
+textarea {
+  resize: none;
+}
+
+.table {
+  margin-bottom: 0;
+}
+
+.selectProducts {
+  width: 80%;
+}
+
+.selectQuantity {
+  width: 20%;
+}
+
+.add-product {
+  margin-top: 5px;
+  border-radius: 5px;
+}
