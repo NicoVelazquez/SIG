@@ -1,1 +1,85 @@
-<p>create-note works!</p>
+<div class="create-note">
+
+
+  <div class="header uk-flex uk-flex-around uk-margin-medium-top">
+    <h2 style="margin: 0">Crear Nota</h2>
+  </div>
+
+  <hr>
+
+  <div class="note uk-flex uk-flex-center">
+
+    <form class="form" [formGroup]="noteForm">
+
+      <div class="uk-margin">
+        <label class="uk-form-label" for="note-date">Fecha</label>
+        <div class="uk-form-controls">
+          <input class="uk-input" id="note-date" type="date" formControlName="date" disabled>
+        </div>
+      </div>
+
+      <div class="uk-margin">
+        <label class="uk-form-label" for="note-description">Descripción</label>
+        <div class="uk-form-controls">
+          <textarea class="uk-textarea" id="note-description" rows="5" formControlName="description"></textarea>
+        </div>
+      </div>
+
+      <div class="uk-margin">
+        <label class="uk-form-label" for="note-price">Precio</label>
+        <div class="uk-form-controls">
+          <input class="uk-input" id="note-price" type="number" min="0" formControlName="price">
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+  <hr>
+
+  <h3 class="uk-text-center">Solicitud de Devolución</h3>
+
+  <div class="application uk-flex uk-flex-center">
+
+    <form class="form">
+      <div class="uk-margin">
+        <label class="uk-form-label" for="date">Fecha</label>
+        <div class="uk-form-controls">
+          <input class="uk-input" id="date" type="text" disabled
+                 value="{{application?.date | date: 'dd/MM/yyyy - hh:mm'}}">
+        </div>
+      </div>
+
+      <div class="uk-margin">
+        <label class="uk-form-label" for="description">Descripción</label>
+        <div class="uk-form-controls">
+          <textarea class="uk-textarea" id="description" rows="5" disabled
+                    placeholder="{{application?.description}}"></textarea>
+        </div>
+      </div>
+
+      <div class="uk-margin">
+        <label class="uk-form-label" for="table">Productos</label>
+        <table class="table uk-table uk-table-striped" id="table">
+          <thead>
+          <tr>
+            <th *ngFor="let header of headers">{{header}}</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="row" *ngFor="let p of application?.products">
+            <td>{{p?.name}}</td>
+            <td>{{p?.date | date}}</td>
+            <td>{{p?.lot}}</td>
+            <td>{{p?.quantity}}</td>
+            <td>{{p?.state}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </form>
+
+  </div>
+
+</div>

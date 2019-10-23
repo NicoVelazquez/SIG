@@ -4,7 +4,7 @@
   <div class="header uk-flex uk-flex-around uk-margin-medium-top">
     <h2 style="margin: 0">Solicitud de Devolución N˚{{application?.id}}</h2>
     <button class="uk-button uk-button-primary toggleTabButton" (click)="finishControlling()"
-            *ngIf="state === 'en almacen'">
+            *ngIf="state === 'en almacen'" [disabled]="!hasFinishedControlling">
       Terminar Control
     </button>
     <div class="buttons" *ngIf="state === 'nueva'">

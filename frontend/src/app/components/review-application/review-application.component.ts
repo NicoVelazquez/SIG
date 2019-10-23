@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpRequestsService} from '../../../shared/services/http-requests.service';
+import {HttpRequestsService} from '../../shared/services/http-requests.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
 
@@ -14,6 +14,9 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
   application: any;
   headers = ['Nombre', 'Fecha', 'Lote', 'Cantidad'];
   state: string;
+
+  hasFinishedControlling = false;
+  checkedProducts = 0;
 
   constructor(private rs: HttpRequestsService, private router: Router, private aRoute: ActivatedRoute) {
   }
@@ -38,17 +41,6 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  hasFinishedControlling(): boolean {
-    if (this.application) {
-      this.application.products.forEach(e => {
-        if (e.state === 'unchecked') {
-          return true;
-        }
-      });
-      return false;
-    }
-  }
-
   finishControlling() {
     this.application.state = 'Controlada';
     this.rs.controlledManagerApplication(this.application).then(() => {
@@ -59,6 +51,9 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
   setProductState(p: any, state: string) {
     this.application.products.forEach(e => {
       if (e.name === p.name) {
+        if (e.state === 'unchecked') {
+          this.checkedProducts++;
+        }
         p.state = state;
       }
     });
@@ -69,6 +64,10 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
     } else {
       document.getElementById(p.name + '-' + 'good').style.color = 'grey';
       document.getElementById(p.name + '-' + 'bad').style.color = 'red';
+    }
+
+    if (this.checkedProducts === this.application.products.length) {
+      this.hasFinishedControlling = true;
     }
   }
 

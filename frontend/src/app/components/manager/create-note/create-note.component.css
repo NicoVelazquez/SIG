@@ -1,0 +1,11 @@
+.form {
+  width: 50%;
+}
+
+textarea {
+  resize: none;
+}
+
+.table {
+  margin: 0;
+}

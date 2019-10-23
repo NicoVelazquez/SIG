@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpRequestsService} from '../../shared/services/http-requests.service';
 import {NewApplicationComponent} from './new-application/new-application.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-client',
@@ -12,12 +13,12 @@ export class ClientComponent implements OnInit {
   tab = 'list';
 
   // TODO - definir los headers de la tabla
-  headers: string[] = ['Id', 'Dia', 'Estado'];
+  headers: string[] = ['Id', 'Dia', 'Estado', 'Ver'];
   applications = [];
 
   @ViewChild(NewApplicationComponent, {static: false}) newApplication: NewApplicationComponent;
 
-  constructor(private rs: HttpRequestsService) {
+  constructor(private rs: HttpRequestsService, private router: Router) {
   }
 
   ngOnInit() {
@@ -39,4 +40,9 @@ export class ClientComponent implements OnInit {
     this.applications.push(newApplication);
     this.tab = 'list';
   }
+
+  reviewApplication(application: any) {
+    this.router.navigate(['/review-application/' + application.id]);
+  }
+
 }
