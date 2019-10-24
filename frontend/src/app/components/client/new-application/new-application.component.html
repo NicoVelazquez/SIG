@@ -1,72 +1,90 @@
-<div class="new-application">
+<div class="new-application-container">
 
-  <div class="uk-flex uk-flex-center">
-    <form class="form uk-form-stacked" [formGroup]="applicationForm">
-
-      <div class="uk-margin">
-        <label class="uk-form-label" for="date">Fecha</label>
-        <div class="uk-form-controls">
-          <input class="uk-input" id="date" type="date" formControlName="date" disabled>
-        </div>
-      </div>
-
-      <div class="uk-margin">
-        <label class="uk-form-label" for="description">Descripción</label>
-        <div class="uk-form-controls">
-          <textarea class="uk-textarea" id="description" rows="5" formControlName="description"></textarea>
-        </div>
-      </div>
-
-      <div class="uk-margin">
-        <table class="table uk-table uk-table-striped" id="table">
-          <thead>
-          <tr>
-            <th class="admin--heading" *ngFor="let header of headers">{{header}}</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr class="row" *ngFor="let p of selectedProducts">
-            <td>{{p?.name}}</td>
-            <td>{{p?.date | date}}</td>
-            <td>{{p?.lot}}</td>
-            <td>{{p?.quantity}}</td>
-          </tr>
-          </tbody>
-        </table>
-        <div class="no-products" *ngIf="selectedProducts.length === 0">
-          <p class="uk-text-center">No has agregado productos aún</p>
-        </div>
-      </div>
-    </form>
+  <div class="header uk-flex uk-flex-around uk-margin-medium-top">
+    <h2 class="uk-margin-remove">Nueva Solicitud de Devolución</h2>
+    <button class="uk-button uk-button-secondary toggleTabButton"
+            [disabled]="!isValidApplication()" (click)="createApplication()">
+      Generar Solicitud
+    </button>
   </div>
 
-  <div class="uk-flex uk-flex-center">
-    <div class="form">
+  <hr>
 
-      <div class="uk-margin" *ngIf="moreProduct">
-        <label class="uk-form-label" for="form-stacked-select">Agreagr Producto</label>
-        <div class="uk-form-controls">
-          <select class="selectProducts uk-select" id="form-stacked-select" (change)="selectProduct($event)">
-            <option disabled selected>Seleccione producto</option>
-            <option *ngFor="let p of products">{{p.name}} | Lote: {{p.lot}} | Cantidad: {{p.quantity}}</option>
-          </select>
-          <input class="selectQuantity uk-input" id="quantity" type="number" min="0" max="{{selectedProduct?.quantity}}"
-                 [(ngModel)]="selectedQuantity">
+  <div class="new-application">
 
-          <div class="uk-flex uk-flex-center">
-            <button class="add-product uk-button uk-button-primary" (click)="addProduct()"
-                    [disabled]="selectedProduct === null || selectedQuantity === 0 || selectedQuantity > selectedProduct.quantity">
-              Agregar Producto
-            </button>
+    <div class="uk-flex uk-flex-center">
+      <form class="form uk-form-stacked" [formGroup]="applicationForm">
+
+        <div class="uk-margin">
+          <label class="uk-form-label" for="date">Fecha</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="date" type="date" formControlName="date" disabled>
           </div>
+        </div>
 
+        <div class="uk-margin">
+          <label class="uk-form-label" for="description">Descripción</label>
+          <div class="uk-form-controls">
+            <textarea class="uk-textarea" id="description" rows="5" formControlName="description"></textarea>
+          </div>
+        </div>
+
+        <div class="uk-margin">
+          <table class="table uk-table uk-table-striped" id="table">
+            <thead>
+            <tr>
+              <th class="admin--heading" *ngFor="let header of headers">{{header}}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="row" *ngFor="let p of selectedProducts">
+              <td>{{p?.name}}</td>
+              <td>{{p?.date | date}}</td>
+              <td>{{p?.lot}}</td>
+              <td>{{p?.quantity}}</td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="no-products" *ngIf="selectedProducts.length === 0">
+            <p class="uk-text-center">No has agregado productos aún</p>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="uk-flex uk-flex-center">
+      <div class="form">
+
+        <div class="uk-margin" *ngIf="moreProduct">
+          <label class="uk-form-label" for="form-stacked-select">Agreagr Producto</label>
+          <div class="uk-form-controls">
+
+            <select class="selectProducts uk-select" id="form-stacked-select" (change)="selectProduct($event)">
+              <option disabled selected>Seleccione producto</option>
+              <option *ngFor="let p of products" [value]="p.id">{{p.name}} | Lote: {{p.lot}} | Cantidad: {{p.quantity}}</option>
+            </select>
+
+            <input class="selectQuantity uk-input" id="quantity" type="number" min="0"
+                   max="{{selectedProduct?.quantity}}"
+                   [(ngModel)]="selectedQuantity">
+
+            <div class="uk-flex uk-flex-center">
+              <button class="add-product uk-button uk-button-primary" (click)="addProduct()"
+                      [disabled]="selectedProduct === null || selectedQuantity === 0 || selectedQuantity > selectedProduct.quantity">
+                Agregar Producto
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="more-products uk-flex uk-flex-center uk-margin" *ngIf="!moreProduct">
+          <a uk-icon="icon: plus" (click)="moreProduct = true" uk-tooltip="Agregar otro producto"></a>
         </div>
       </div>
-
-      <div class="more-products uk-flex uk-flex-center uk-margin" *ngIf="!moreProduct">
-        <a uk-icon="icon: plus" (click)="moreProduct = true" uk-tooltip="Agregar otro producto"></a>
-      </div>
     </div>
+
   </div>
 
 </div>
+

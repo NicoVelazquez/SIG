@@ -1,6 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpRequestsService} from '../../shared/services/http-requests.service';
-import {NewApplicationComponent} from './new-application/new-application.component';
 import {Router} from '@angular/router';
 
 @Component({
@@ -10,13 +9,8 @@ import {Router} from '@angular/router';
 })
 export class ClientComponent implements OnInit {
 
-  tab = 'list';
-
-  // TODO - definir los headers de la tabla
   headers: string[] = ['Id', 'Dia', 'Estado', 'Ver'];
   applications = [];
-
-  @ViewChild(NewApplicationComponent, {static: false}) newApplication: NewApplicationComponent;
 
   constructor(private rs: HttpRequestsService, private router: Router) {
   }
@@ -28,21 +22,15 @@ export class ClientComponent implements OnInit {
     });
   }
 
-  validApplication(): boolean {
-    if (this.newApplication) {
-      return this.newApplication.isValidApplication();
+  reviewApplication(application: any) {
+    if (application.state.toLowerCase() === 'nueva') {
+      this.router.navigate(['/review-application/' + application.id], {queryParams: {state: 'nueva', user: 'client'}});
+    } else {
+      this.router.navigate(['/review-application/' + application.id]);
     }
   }
 
-  async generateApplication() {
-    const newApplication = await this.newApplication.createApplication();
-    console.log(newApplication);
-    this.applications.push(newApplication);
-    this.tab = 'list';
+  reviewNote(application: any) {
+    this.router.navigate(['/review-note/' + application.id]);
   }
-
-  reviewApplication(application: any) {
-    this.router.navigate(['/review-application/' + application.id]);
-  }
-
 }

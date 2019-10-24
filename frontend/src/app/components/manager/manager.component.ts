@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpRequestsService} from '../../shared/services/http-requests.service';
 import {Router} from '@angular/router';
+import {AuthService} from '../../shared/services/auth.service';
 
 @Component({
   selector: 'app-manager',
@@ -18,7 +19,7 @@ export class ManagerComponent implements OnInit {
 
   clientSearch: string;
 
-  constructor(private rs: HttpRequestsService, private router: Router) {
+  constructor(private rs: HttpRequestsService, private router: Router, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -26,7 +27,9 @@ export class ManagerComponent implements OnInit {
     this.rs.getManagerApplications().then(data => {
       this.applications = data;
       this.filteredApplications = data;
-      console.log(this.filteredApplications);
+      if (!this.authService.isManager()) {
+        this.switchTab('warehouse');
+      }
     });
   }
 
@@ -56,6 +59,12 @@ export class ManagerComponent implements OnInit {
         );
         break;
       }
+      case 'note': {
+        this.filteredApplications = this.applications.filter(e =>
+          e.client.toLowerCase().includes(this.clientSearch.toLowerCase()) && e.state.toLowerCase() === 'con nota'
+        );
+        break;
+      }
       default: {
         console.log('Hay estados mal');
       }
@@ -73,6 +82,8 @@ export class ManagerComponent implements OnInit {
       this.router.navigate(['/review-application/' + application.id], {queryParams: {state: 'en almacen'}});
     } else if (application.state.toLowerCase() === 'nueva') {
       this.router.navigate(['/review-application/' + application.id], {queryParams: {state: 'nueva'}});
+    } else if (application.state.toLowerCase() === 'con nota') {
+      this.router.navigate(['/review-note/' + application.id], {queryParams: {state: 'con nota'}});
     } else {
       this.router.navigate(['/review-application/' + application.id]);
     }

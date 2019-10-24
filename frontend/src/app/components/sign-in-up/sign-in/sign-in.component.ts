@@ -45,7 +45,7 @@ export class SignInComponent implements OnInit {
       const user = {id: data.id, role: data.role};
       localStorage.setItem('user', JSON.stringify(user));
 
-      this.router.navigate(['/home']).then(() => {
+      this.router.navigate(['home']).then(() => {
         this.signInForm.reset();
       });
     }).catch(err => {

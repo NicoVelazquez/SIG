@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {HttpRequestsService} from '../../../shared/services/http-requests.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-new-application',
@@ -19,7 +20,7 @@ export class NewApplicationComponent implements OnInit {
 
   moreProduct = true;
 
-  constructor(private fb: FormBuilder, private rs: HttpRequestsService) {
+  constructor(private fb: FormBuilder, private rs: HttpRequestsService, private router: Router) {
     this.applicationForm = fb.group({
       date: new FormControl(null, [Validators.required]),
       description: new FormControl(null, [Validators.required])
@@ -30,7 +31,6 @@ export class NewApplicationComponent implements OnInit {
     this.applicationForm.patchValue({
       date: this.parseDate(new Date(Date.now()))
     });
-
     this.rs.getClientProducts().then(data => this.products = data);
   }
 
@@ -42,14 +42,17 @@ export class NewApplicationComponent implements OnInit {
   }
 
   selectProduct($event: any) {
-    const index = this.products.findIndex(e => e.name === $event.target.value);
-    this.selectedProduct = this.products.splice(index, 1)[0];
+    console.log($event.target.value);
+    this.selectedProduct = this.products.filter(e => e.id === +$event.target.value)[0];
+    console.log(this.selectedProduct);
   }
 
   addProduct() {
     this.moreProduct = false;
     this.selectedProduct.quantity = this.selectedQuantity;
     this.selectedProducts.push(this.selectedProduct);
+    const index = this.products.findIndex(e => e.id === this.selectedProduct.id);
+    this.products.splice(index, 1);
 
     this.selectedProduct = null;
     this.selectedQuantity = 0;
@@ -59,15 +62,16 @@ export class NewApplicationComponent implements OnInit {
     return this.applicationForm.valid && this.selectedProducts.length > 0;
   }
 
-  async createApplication(): Promise<any> {
+  createApplication() {
     const newApplication = this.applicationForm.value;
     newApplication.produts = this.selectedProducts;
     newApplication.state = 'Enviada';
-    await this.rs.createClientApplication(newApplication)
-      .then(data => newApplication.id = data.id)
-      .catch(err => {
-        console.log('Error en creacion de aplicacion');
-      });
-    return newApplication;
+    this.rs.createClientApplication(newApplication).then(() => {
+      this.router.navigate(['home']);
+    }).catch(err => {
+      console.log('Error en creacion de aplicacion');
+      console.log(err);
+    });
   }
+
 }

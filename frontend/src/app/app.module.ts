@@ -15,6 +15,7 @@ import {NavbarComponent} from './components/navbar/navbar.component';
 import { ReviewApplicationComponent } from './components/review-application/review-application.component';
 import { NewApplicationComponent } from './components/client/new-application/new-application.component';
 import { CreateNoteComponent } from './components/manager/create-note/create-note.component';
+import { ReviewNoteComponent } from './components/review-note/review-note.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { CreateNoteComponent } from './components/manager/create-note/create-not
     NavbarComponent,
     ReviewApplicationComponent,
     NewApplicationComponent,
-    CreateNoteComponent
+    CreateNoteComponent,
+    ReviewNoteComponent
   ],
   imports: [
     BrowserModule,

@@ -33,7 +33,7 @@ export class HttpRequestsService {
 
     return Promise.resolve(
       [
-        {id: '0', date: Date.now(), state: 'En Almacen'},
+        {id: '0', date: Date.now(), state: 'Con Nota'},
       ]
     );
   }
@@ -44,10 +44,10 @@ export class HttpRequestsService {
 
     return Promise.resolve(
       [
-        {name: 'Pasta', date: Date.now(), lot: 123, quantity: 5},
-        {name: 'Choclo', date: Date.now(), lot: 123, quantity: 5},
-        {name: 'Caca', date: Date.now(), lot: 123, quantity: 5},
-        {name: 'Asd', date: Date.now(), lot: 123, quantity: 5}
+        {id: 0, name: 'Pasta', date: Date.now(), lot: 123, quantity: 5},
+        {id: 1, name: 'Choclo', date: Date.now(), lot: 123, quantity: 5},
+        {id: 2, name: 'Caca', date: Date.now(), lot: 123, quantity: 5},
+        {id: 3, name: 'Asd', date: Date.now(), lot: 123, quantity: 5}
       ]
     );
   }
@@ -57,6 +57,13 @@ export class HttpRequestsService {
     // return this.http.post<any[]>(`${this.url}/client/${this.currentUser.id}/applications`, application).toPromise();
 
     return Promise.resolve({id: 99});
+  }
+
+  deleteClientApplication(id: any) {
+    // TODO - descomentar y borrar
+    // return this.http.delete<any[]>(`${this.url}/client/${this.currentUser.id}/applications/${id}`).toPromise();
+
+    return Promise.resolve(true);
   }
 
   // ---------------------------------------------------------------------------------------------------
@@ -132,13 +139,22 @@ export class HttpRequestsService {
               {name: 'Asd', date: Date.now(), lot: 123, quantity: 5}
             ]
         },
+        {
+          id: '7', client: 'Velazquez', date: Date.now(), state: 'Con Nota', description: 'asd', products:
+            [
+              {name: 'Pasta', date: Date.now(), lot: 123, quantity: 5},
+              {name: 'Choclo', date: Date.now(), lot: 123, quantity: 5},
+              {name: 'Caca', date: Date.now(), lot: 123, quantity: 5},
+              {name: 'Asd', date: Date.now(), lot: 123, quantity: 5}
+            ]
+        }
       ]
     );
   }
 
   getManagerApplication(id: any): Promise<any> {
     // TODO - descomentar y borrar
-    // return this.http.get<any[]>(`${this.url}/manager/application/${id}`).toPromise();
+    // return this.http.get<any[]>(`${this.url}/manager/applications/${id}`).toPromise();
 
     return Promise.resolve(
       {

@@ -22,6 +22,10 @@ export class AuthService {
     return this.currentUserRole() ? this.currentUserRole().toLowerCase() === 'client' : false;
   }
 
+  public isManager() {
+    return this.currentUserRole() ? this.currentUserRole().toLowerCase() === 'manager' : false;
+  }
+
   currentUserRole(): string {
     if (JSON.parse(localStorage.getItem('user'))) {
       return (JSON.parse(localStorage.getItem('user'))).role;

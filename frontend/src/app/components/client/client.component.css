@@ -9,3 +9,9 @@
   border-radius: 5px;
   width: 200px;
 }
+
+.inactiveLink {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}

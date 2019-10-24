@@ -1,24 +1,20 @@
 <div class="client-container">
 
   <div class="header uk-flex uk-flex-around uk-margin-medium-top">
-    <h2 class="uk-margin-remove" *ngIf="tab === 'list'">Solicitudes de Devolución</h2>
-    <h2 class="uk-margin-remove" *ngIf="tab === 'application'">Nueva Solicitud de Devolución</h2>
-    <button class="uk-button uk-button-primary toggleTabButton" (click)="tab = 'application'" *ngIf="tab === 'list'">
+    <h2 class="uk-margin-remove">Solicitudes de Devolución</h2>
+    <button class="uk-button uk-button-primary toggleTabButton" (click)="router.navigate(['/new-application'])">
       Nueva Solicitud
-    </button>
-    <button class="uk-button uk-button-secondary toggleTabButton" *ngIf="tab === 'application'"
-            [disabled]="!validApplication()" (click)="generateApplication()" >
-      Generar Solicitud
     </button>
   </div>
 
   <hr>
 
-  <div class="table-container uk-flex uk-flex-center uk-margin-medium-top" *ngIf="tab === 'list'">
+  <div class="table-container uk-flex uk-flex-center uk-margin-medium-top">
     <table class="table uk-table uk-table-striped" id="table">
       <thead>
       <tr>
         <th class="admin--heading" *ngFor="let header of headers">{{header}}</th>
+        <th class="admin--heading">Ver nota</th>
       </tr>
       </thead>
       <tbody>
@@ -27,13 +23,14 @@
         <td>{{a?.date | date: 'dd/MM/yyyy - hh:mm'}}</td>
         <td>{{a?.state}}</td>
         <td><a class="uk-text-center" uk-icon="icon: cart" (click)="reviewApplication(a)"></a></td>
+        <td
+          uk-tooltip="title: Una vez que la solicitud haya sido controlada, podra ver la nota de credito; pos: bottom">
+          <a class="uk-text-center" [ngClass]="{'inactiveLink': a.state.toLowerCase() !== 'con nota'}"
+             uk-icon="icon: file-text" (click)="reviewNote(a)"></a>
+        </td>
       </tr>
       </tbody>
     </table>
-  </div>
-
-  <div class="new-application-container" *ngIf="tab === 'application'">
-    <app-new-application></app-new-application>
   </div>
 
 

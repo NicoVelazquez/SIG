@@ -4,15 +4,20 @@
   <div class="header uk-flex uk-flex-around uk-margin-medium-top">
     <h2 style="margin: 0">Solicitud de Devolución N˚{{application?.id}}</h2>
     <button class="uk-button uk-button-primary toggleTabButton" (click)="finishControlling()"
-            *ngIf="state === 'en almacen'" [disabled]="!hasFinishedControlling">
+            *ngIf="state === 'en almacen'" [disabled]="!canFinishControlling">
       Terminar Control
     </button>
-    <div class="buttons" *ngIf="state === 'nueva'">
+    <div class="buttons" *ngIf="state === 'nueva' && userType === 'manager'">
       <button class="uk-button uk-button-primary toggleTabButton" (click)="accept_denyApplication('accept')">
         Aceptar
       </button>
       <button class="uk-button uk-button-danger toggleTabButton" (click)="accept_denyApplication('deny')">
         Rechazar
+      </button>
+    </div>
+    <div class="buttons" *ngIf="state === 'nueva' && userType === 'client'">
+      <button class="uk-button uk-button-danger toggleTabButton" (click)="deleteApplication()">
+        Eliminar
       </button>
     </div>
   </div>
@@ -21,7 +26,7 @@
 
   <div class="uk-flex uk-flex-center">
 
-    <form class="form">
+    <div class="form">
       <div class="uk-margin">
         <label class="uk-form-label" for="date">Fecha</label>
         <div class="uk-form-controls">
@@ -44,7 +49,12 @@
           <thead>
           <tr>
             <th *ngFor="let header of headers">{{header}}</th>
-            <th *ngIf="state === 'en almacen'" class="uk-flex uk-flex-center">Seleccionar Estado</th>
+            <th *ngIf="state === 'en almacen'">
+              # Aceptados
+            </th>
+            <th *ngIf="state === 'en almacen'">
+              # Buen Estado
+            </th>
           </tr>
           </thead>
           <tbody>
@@ -53,17 +63,32 @@
             <td>{{p?.date | date}}</td>
             <td>{{p?.lot}}</td>
             <td>{{p?.quantity}}</td>
-            <td class="uk-flex uk-flex-center" *ngIf="state === 'en almacen'">
-              <a uk-icon="icon: check" (click)="setProductState(p, 'good')"
-                 id="{{p?.name}}-good"></a>
-              <a uk-icon="icon: close" (click)="setProductState(p, 'bad')"
-                 id="{{p?.name}}-bad"></a>
+            <td *ngIf="state === 'en almacen'">
+              <input class="selectQuantity uk-input" type="number" min="0"
+                     max="{{p?.quantity}}"
+                     [(ngModel)]="p.accepted"
+                     (keyup)="validateAcceptedGoodQuantity($event, p)">
+            </td>
+            <td *ngIf="state === 'en almacen'">
+              <input class="selectQuantity uk-input" type="number" min="0"
+                     max="{{p?.accepted || 0}}"
+                     [(ngModel)]="p.good"
+                     (keyup)="validateAcceptedGoodQuantity($event, p)">
             </td>
           </tr>
           </tbody>
         </table>
       </div>
-    </form>
+
+      <div class="uk-margin">
+        <label class="uk-form-label" for="observation">Observación del Controlador</label>
+        <div class="uk-form-controls">
+          <textarea class="uk-textarea" id="observation" rows="5" placeholder="Observaciones"
+                    [(ngModel)]="observations"></textarea>
+        </div>
+      </div>
+
+    </div>
 
   </div>
 
