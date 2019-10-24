@@ -31,6 +31,6 @@ export class ClientComponent implements OnInit {
   }
 
   reviewNote(application: any) {
-    this.router.navigate(['/review-note/' + application.id]);
+    this.router.navigate(['/review-note/' + application.id], {queryParams: {user: 'client'}});
   }
 }

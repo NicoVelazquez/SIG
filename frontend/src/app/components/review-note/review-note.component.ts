@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {HttpRequestsService} from '../../shared/services/http-requests.service';
+import {Subscription} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-review-note',
@@ -7,9 +10,30 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReviewNoteComponent implements OnInit {
 
-  constructor() { }
+  subscription: Subscription;
+  note: any;
+  application: any;
+  headers = ['Nombre', 'Fecha', 'Lote', 'Cantidad', '# Acceptadas'];
+  userType = 'manager';
+
+
+  constructor(private rs: HttpRequestsService, private aRoute: ActivatedRoute) {
+  }
 
   ngOnInit() {
+    this.subscription = this.aRoute.params.subscribe(params => {
+      this.rs.getNote(params.id).then(data => {
+        this.note = data.note;
+        this.application = data.application;
+      });
+    });
+
+    this.aRoute.queryParams.subscribe(params => {
+      // TODO (NV) - Hace falta? O la application ya tiene state?
+      if (params.user) {
+        this.userType = params.user;
+      }
+    });
   }
 
 }

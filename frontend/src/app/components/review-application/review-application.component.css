@@ -1,14 +1,5 @@
-.toggleTabButton {
-  border-radius: 5px;
-  width: 200px;
-}
-
 .form {
   width: 50%;
-}
-
-textarea {
-  resize: none;
 }
 
 .table {

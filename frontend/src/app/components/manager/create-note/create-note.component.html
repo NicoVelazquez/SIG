@@ -3,38 +3,62 @@
 
   <div class="header uk-flex uk-flex-around uk-margin-medium-top">
     <h2 style="margin: 0">Crear Nota</h2>
+    <button class="uk-button uk-button-secondary toggleTabButton"
+            [disabled]="noteForm.invalid || !canFinishNote" (click)="createNote()">
+      Generar Nota
+    </button>
   </div>
 
   <hr>
 
-  <div class="note uk-flex uk-flex-center">
+  <div class="note">
 
-    <form class="form" [formGroup]="noteForm">
+    <form [formGroup]="noteForm" style="width: 100%">
 
-      <div class="uk-margin">
-        <label class="uk-form-label" for="note-date">Fecha</label>
-        <div class="uk-form-controls">
-          <input class="uk-input" id="note-date" type="date" formControlName="date" disabled>
+      <div class="uk-flex uk-flex-center">
+        <div class="uk-margin" style="width: 50%">
+          <label class="uk-form-label" for="note-date">Fecha</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="note-date" type="date" formControlName="date" disabled>
+          </div>
         </div>
       </div>
 
-      <div class="uk-margin">
-        <label class="uk-form-label" for="note-description">Descripción</label>
-        <div class="uk-form-controls">
-          <textarea class="uk-textarea" id="note-description" rows="5" formControlName="description"></textarea>
+      <div class="uk-grid uk-grid-large uk-child-width-expand@s" uk-gird style="padding: 0 5vw">
+
+        <div class="note-credit">
+          <label class="uk-form-label" for="note-credit-description">Descripción Crédito</label>
+          <div class="uk-form-controls">
+            <textarea class="uk-textarea" id="note-credit-description" rows="5"
+                      formControlName="descriptionCredit"></textarea>
+          </div>
+
+          <label class="uk-form-label" for="note-credit-price">Precio Crédito</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="note-credit-price" type="number" min="0" formControlName="priceCredit" disabled>
+          </div>
         </div>
+
+        <div class="note-debit">
+          <label class="uk-form-label" for="note-debit-description">Descripción Débito</label>
+          <div class="uk-form-controls">
+            <textarea class="uk-textarea" id="note-debit-description" rows="5"
+                      formControlName="descriptionDebit"></textarea>
+          </div>
+
+          <label class="uk-form-label" for="note-debit-price">Precio Débito</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="note-debit-price" type="number" min="0" formControlName="priceDebit" disabled>
+          </div>
+        </div>
+
       </div>
 
-      <div class="uk-margin">
-        <label class="uk-form-label" for="note-price">Precio</label>
-        <div class="uk-form-controls">
-          <input class="uk-input" id="note-price" type="number" min="0" formControlName="price">
-        </div>
-      </div>
 
     </form>
 
   </div>
+
 
   <hr>
 
@@ -42,7 +66,7 @@
 
   <div class="application uk-flex uk-flex-center">
 
-    <form class="form">
+    <div class="form">
       <div class="uk-margin">
         <label class="uk-form-label" for="date">Fecha</label>
         <div class="uk-form-controls">
@@ -52,7 +76,7 @@
       </div>
 
       <div class="uk-margin">
-        <label class="uk-form-label" for="description">Descripción</label>
+        <label class="uk-form-label" for="description">Descripción del Cliente</label>
         <div class="uk-form-controls">
           <textarea class="uk-textarea" id="description" rows="5" disabled
                     placeholder="{{application?.description}}"></textarea>
@@ -73,12 +97,32 @@
             <td>{{p?.date | date}}</td>
             <td>{{p?.lot}}</td>
             <td>{{p?.quantity}}</td>
-            <td>{{p?.state}}</td>
+            <td>
+              <input class="selectQuantity uk-input" type="number" min="0"
+                     max="{{p?.quantity}}"
+                     [(ngModel)]="p.accepted"
+                     (keyup)="validateAcceptedGoodQuantity($event, p)">
+            </td>
+            <td>
+              <input class="selectQuantity uk-input" type="number" min="0"
+                     max="{{p?.accepted || 0}}"
+                     [(ngModel)]="p.good"
+                     (keyup)="validateAcceptedGoodQuantity($event, p)">
+            </td>
           </tr>
           </tbody>
         </table>
       </div>
-    </form>
+
+      <div class="uk-margin">
+        <label class="uk-form-label" for="observation">Observación del Controlador</label>
+        <div class="uk-form-controls">
+          <textarea class="uk-textarea" id="observation" rows="5" disabled
+                    placeholder="{{application?.observation}}"></textarea>
+        </div>
+      </div>
+
+    </div>
 
   </div>
 

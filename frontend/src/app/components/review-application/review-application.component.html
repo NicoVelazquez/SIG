@@ -8,15 +8,15 @@
       Terminar Control
     </button>
     <div class="buttons" *ngIf="state === 'nueva' && userType === 'manager'">
-      <button class="uk-button uk-button-primary toggleTabButton" (click)="accept_denyApplication('accept')">
+      <button class="uk-button uk-button-primary" style="background-color: #62c24f" (click)="accept_denyApplication('accept')">
         Aceptar
       </button>
-      <button class="uk-button uk-button-danger toggleTabButton" (click)="accept_denyApplication('deny')">
+      <button class="uk-button uk-button-danger" (click)="accept_denyApplication('deny')">
         Rechazar
       </button>
     </div>
     <div class="buttons" *ngIf="state === 'nueva' && userType === 'client'">
-      <button class="uk-button uk-button-danger toggleTabButton" (click)="deleteApplication()">
+      <button class="uk-button uk-button-danger" (click)="deleteApplication()">
         Eliminar
       </button>
     </div>
@@ -80,7 +80,7 @@
         </table>
       </div>
 
-      <div class="uk-margin">
+      <div class="uk-margin" *ngIf="state === 'en almacen'">
         <label class="uk-form-label" for="observation">Observación del Controlador</label>
         <div class="uk-form-controls">
           <textarea class="uk-textarea" id="observation" rows="5" placeholder="Observaciones"

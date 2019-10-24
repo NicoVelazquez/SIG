@@ -14,13 +14,16 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   noteForm: FormGroup;
   application: any;
-  headers = ['Nombre', 'Fecha', 'Lote', 'Cantidad', 'Estado'];
+  headers = ['Nombre', 'Fecha', 'Lote', 'Cantidad', '# Aceptadas', '# Buenas'];
+  canFinishNote = true;
 
   constructor(private fb: FormBuilder, private rs: HttpRequestsService, private router: Router, private aRoute: ActivatedRoute) {
     this.noteForm = fb.group({
       date: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, [Validators.required]),
-      price: new FormControl(null, [Validators.required])
+      descriptionCredit: new FormControl(null, [Validators.required]),
+      descriptionDebit: new FormControl(null, [Validators.required]),
+      priceCredit: new FormControl(0, [Validators.required]),
+      priceDebit: new FormControl(0, [Validators.required])
     });
   }
 
@@ -28,6 +31,7 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
     this.subscription = this.aRoute.params.subscribe(params => {
       this.rs.getManagerApplication(params.id).then(data => {
         this.application = data;
+        this.updatePrices();
         console.log(this.application);
       });
     });
@@ -48,4 +52,33 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  validateAcceptedGoodQuantity($event: any, product: any) {
+    if (product.quantity < product.accepted || product.accepted < product.good) {
+      this.canFinishNote = false;
+    } else {
+      this.canFinishNote = true;
+    }
+    this.updatePrices();
+  }
+
+  updatePrices() {
+    let creditPrice = 0;
+    let debitPrice = 0;
+    this.application.products.forEach(e => {
+      creditPrice += (e.accepted * e.price);
+      // TODO (NV) - me falta multiplicar por el precio del operador
+      debitPrice += ((e.quantity - e.accepted) * e.weight * this.application.cost);
+    });
+
+    this.noteForm.patchValue({
+      priceCredit: creditPrice,
+      priceDebit: debitPrice,
+    });
+  }
+
+  createNote() {
+    this.rs.createManagerNote(this.application, this.noteForm.value).then(() => {
+      this.router.navigate(['home']);
+    });
+  }
 }

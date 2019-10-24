@@ -3,3 +3,14 @@ input.ng-invalid.ng-touched,
 textarea.ng-invalid.ng-touched {
   border: 1px solid red;
 }
+
+
+.uk-button {
+  border-radius: 5px;
+  margin-left: 5px !important;
+  width: 200px;
+}
+
+textarea {
+  resize: none;
+}

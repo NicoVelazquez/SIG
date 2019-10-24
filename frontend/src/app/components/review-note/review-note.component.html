@@ -1,1 +1,114 @@
-<p>review-note works!</p>
+<div class="create-note">
+
+
+  <div class="header uk-flex uk-flex-around uk-margin-medium-top">
+    <h2 style="margin: 0">Ver Nota</h2>
+  </div>
+
+  <hr>
+
+  <div class="note">
+
+    <div style="width: 100%">
+
+      <div class="uk-flex uk-flex-center">
+        <div class="uk-margin" style="width: 50%">
+          <label class="uk-form-label" for="note-date">Fecha</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="note-date" type="date" disabled value="{{note?.date}}">
+          </div>
+        </div>
+      </div>
+
+      <div class="uk-grid uk-grid-large uk-child-width-expand@s" uk-gird style="padding: 0 5vw">
+
+        <div class="note-credit">
+          <label class="uk-form-label" for="note-credit-description">Descripción Crédito</label>
+          <div class="uk-form-controls">
+            <textarea class="uk-textarea" id="note-credit-description" rows="5" disabled placeholder="{{note?.descriptionCredit}}"></textarea>
+          </div>
+
+          <label class="uk-form-label" for="note-credit-price">Precio Crédito</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="note-credit-price" type="number" min="0" disabled value="{{note?.priceCredit}}">
+          </div>
+        </div>
+
+        <div class="note-debit">
+          <label class="uk-form-label" for="note-debit-description">Descripción Débito</label>
+          <div class="uk-form-controls">
+            <textarea class="uk-textarea" id="note-debit-description" rows="5" disabled placeholder="{{note?.descriptionDebit}}"></textarea>
+          </div>
+
+          <label class="uk-form-label" for="note-debit-price">Precio Débito</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="note-debit-price" type="number" min="0" disabled value="{{note?.priceDebit}}">
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+
+  <hr>
+
+  <h3 class="uk-text-center">Solicitud de Devolución</h3>
+
+  <div class="application uk-flex uk-flex-center">
+
+    <div class="form">
+      <div class="uk-margin">
+        <label class="uk-form-label" for="date">Fecha</label>
+        <div class="uk-form-controls">
+          <input class="uk-input" id="date" type="text" disabled
+                 value="{{application?.date | date: 'dd/MM/yyyy - hh:mm'}}">
+        </div>
+      </div>
+
+      <div class="uk-margin">
+        <label class="uk-form-label" for="description">Descripción del Cliente</label>
+        <div class="uk-form-controls">
+          <textarea class="uk-textarea" id="description" rows="5" disabled
+                    placeholder="{{application?.description}}"></textarea>
+        </div>
+      </div>
+
+      <div class="uk-margin">
+        <label class="uk-form-label" for="table">Productos</label>
+        <table class="table uk-table uk-table-striped" id="table">
+          <thead>
+          <tr>
+            <th *ngFor="let header of headers">{{header}}</th>
+            <th *ngIf="userType !== 'client'">#Buenas</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="row" *ngFor="let p of application?.products">
+            <td>{{p?.name}}</td>
+            <td>{{p?.date | date}}</td>
+            <td>{{p?.lot}}</td>
+            <td>{{p?.quantity}}</td>
+            <td>{{p?.accepted}}</td>
+            <td *ngIf="userType !== 'client'">{{p?.good}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="uk-margin">
+        <label class="uk-form-label" for="observation">Observación del Controlador</label>
+        <div class="uk-form-controls">
+          <textarea class="uk-textarea" id="observation" rows="5" disabled
+                    placeholder="{{application?.observation}}"></textarea>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
