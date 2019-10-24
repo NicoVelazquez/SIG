@@ -31,7 +31,7 @@
         <thead>
         <tr>
           <th *ngFor="let header of headers">{{header}}</th>
-          <th>Ver</th>
+          <th *ngIf="tab !== 'controlled'">Ver</th>
           <th class="uk-flex uk-flex-center" *ngIf="tab === 'controlled'">Generar Nota</th>
         </tr>
         </thead>
@@ -41,7 +41,9 @@
           <td>{{a?.client}}</td>
           <td>{{a?.date | date: 'dd/MM/yyyy - hh:mm'}}</td>
           <td>{{a?.state}}</td>
-          <td><a class="uk-text-center" uk-icon="icon: cart" (click)="reviewApplication(a)"></a></td>
+          <td *ngIf="tab !== 'controlled'">
+            <a class="uk-text-center" uk-icon="icon: cart" (click)="reviewApplication(a)"></a>
+          </td>
           <td *ngIf="tab === 'controlled'" class="uk-flex uk-flex-center">
             <a class="uk-text-center" uk-icon="icon: pencil" (click)="generateNote(a?.id)"></a>
           </td>

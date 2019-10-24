@@ -70,7 +70,9 @@
 
             <div class="uk-flex uk-flex-center">
               <button class="add-product uk-button uk-button-primary" style="width: auto" (click)="addProduct()"
-                      [disabled]="selectedProduct === null || selectedQuantity === 0 || selectedQuantity > selectedProduct.quantity">
+                      [disabled]="selectedProduct === null ||
+                      selectedQuantity <= 0 ||
+                      selectedQuantity > selectedProduct.quantity">
                 Agregar Producto
               </button>
             </div>

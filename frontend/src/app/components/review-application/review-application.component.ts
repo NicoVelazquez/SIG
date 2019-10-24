@@ -16,7 +16,7 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
   state: string;
   userType = 'manager';
 
-  observations: string;
+  observations = '';
   canFinishControlling = true;
 
   constructor(private rs: HttpRequestsService, private router: Router, private aRoute: ActivatedRoute) {
@@ -77,10 +77,6 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
   }
 
   validateAcceptedGoodQuantity($event: any, product: any) {
-    if (product.quantity < product.accepted || product.accepted < product.good) {
-      this.canFinishControlling = false;
-    } else {
-      this.canFinishControlling = true;
-    }
+    this.canFinishControlling = (product.quantity >= product.accepted && product.accepted >= product.good && product.good >= 0);
   }
 }

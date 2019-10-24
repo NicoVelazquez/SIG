@@ -4,11 +4,12 @@
   <div class="header uk-flex uk-flex-around uk-margin-medium-top">
     <h2 style="margin: 0">Solicitud de Devolución N˚{{application?.id}}</h2>
     <button class="uk-button uk-button-primary toggleTabButton" (click)="finishControlling()"
-            *ngIf="state === 'en almacen'" [disabled]="!canFinishControlling">
+            *ngIf="state === 'en almacen'" [disabled]="!canFinishControlling || this.observations === ''">
       Terminar Control
     </button>
     <div class="buttons" *ngIf="state === 'nueva' && userType === 'manager'">
-      <button class="uk-button uk-button-primary" style="background-color: #62c24f" (click)="accept_denyApplication('accept')">
+      <button class="uk-button uk-button-primary" style="background-color: #62c24f"
+              (click)="accept_denyApplication('accept')">
         Aceptar
       </button>
       <button class="uk-button uk-button-danger" (click)="accept_denyApplication('deny')">
@@ -80,7 +81,7 @@
         </table>
       </div>
 
-      <div class="uk-margin" *ngIf="state === 'en almacen'">
+      <div class="uk-margin" *ngIf="state === 'en almacen' || state === 'controlada'">
         <label class="uk-form-label" for="observation">Observación del Controlador</label>
         <div class="uk-form-controls">
           <textarea class="uk-textarea" id="observation" rows="5" placeholder="Observaciones"

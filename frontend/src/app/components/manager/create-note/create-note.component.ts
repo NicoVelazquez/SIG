@@ -53,12 +53,7 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
   }
 
   validateAcceptedGoodQuantity($event: any, product: any) {
-    if (product.quantity < product.accepted || product.accepted < product.good) {
-      this.canFinishNote = false;
-    } else {
-      this.canFinishNote = true;
-    }
-    this.updatePrices();
+    this.canFinishNote = (product.quantity >= product.accepted && product.accepted >= product.good && product.good >= 0);
   }
 
   updatePrices() {
