@@ -17,10 +17,10 @@ export class HttpRequestsService {
 
   signIn(email: string, password: string): Promise<any> {
     // TODO - descomentar y borrar
-    // const credentials = {email, password};
-    // return this.http.post<any[]>(`${this.url}/login`, credentials).toPromise();
+    const credentials = {email, password};
+    return this.http.post<any[]>(`${this.url}/login`, credentials).toPromise();
 
-    return Promise.resolve({id: 1, role: 'client'});
+    // return Promise.resolve({id: 1, role: 'client'});
   }
 
   // ---------------------------------------------------------------------------------------------------
