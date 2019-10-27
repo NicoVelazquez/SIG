@@ -4,70 +4,54 @@
 # ~~~~
 
 # Map static resources from the /public folder to the /assets URL path
-GET           /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET           /assets/*file                            controllers.Assets.versioned(path="/public", file: Asset)
 
-POST          /client                     presentation.user.ClientController.create
-GET           /client/:id                 presentation.user.ClientController.get(id: Int)
-PUT           /client                     presentation.user.ClientController.update
-DELETE        /client/:id                 presentation.user.ClientController.delete(id: Int)
-GET           /client                     presentation.user.ClientController.getAll
+# -------------------------------------------------------------------------------------------------------------------- #
 
-POST          /operator                   presentation.user.LogisticOperatorController.create
-GET           /operator/:id               presentation.user.LogisticOperatorController.get(id: Int)
-PUT           /operator                   presentation.user.LogisticOperatorController.update
-DELETE        /operator/:id               presentation.user.LogisticOperatorController.delete(id: Int)
-GET           /operator                   presentation.user.LogisticOperatorController.getAll
+POST          /client/:id/applications                 presentation.http.user.ClientController.createClientApplication(id: Int)
+GET           /client/:id/applications                 presentation.http.user.ClientController.getClientApplications(id: Int)
+DELETE        /client/:id/applications/:appId          presentation.http.user.ClientController.deleteClientApplication(id: Int, appId: Int)
+GET           /client/:id/products                     presentation.http.user.ClientController.getClientProducts(id: Int)
 
-POST          /manager                    presentation.user.ManagerController.create
-GET           /manager/:id                presentation.user.ManagerController.get(id: Int)
-PUT           /manager                    presentation.user.ManagerController.update
-DELETE        /manager/:id                presentation.user.ManagerController.delete(id: Int)
-GET           /manager                    presentation.user.ManagerController.getAll
+#POST          /manager/applications/:appId/controlled        presentation.http.user.ManagerController.controlApplication(appId: Int)
+#POST          /manager/applications/:appId/accept            presentation.http.user.ManagerController.acceptApplication(appId: Int)
+#POST          /manager/applications/:appId/deny              presentation.http.user.ManagerController.denyApplication(appId: Int)
+#POST          /manager/applications/:appId/note        presentation.http.user.ManagerController.createNote(appId: Int)
 
-POST          /clientProduct              presentation.relations.ClientProductController.create
-GET           /clientProduct/:id          presentation.relations.ClientProductController.get(id: Int)
-PUT           /clientProduct              presentation.relations.ClientProductController.update
-DELETE        /clientProduct/:id          presentation.relations.ClientProductController.delete(id: Int)
-GET           /clientProduct              presentation.relations.ClientProductController.getAll
+POST          /login                                   presentation.http.login.LoginController.login
 
-POST          /productRequest             presentation.relations.ProductRequestController.create
-GET           /productRequest/:id         presentation.relations.ProductRequestController.get(id: Int)
-PUT           /productRequest             presentation.relations.ProductRequestController.update
-DELETE        /productRequest/:id         presentation.relations.ProductRequestController.delete(id: Int)
-GET           /productRequest             presentation.relations.ProductRequestController.getAll
+GET           /applications/:id/note                   presentation.http.note.NoteController.getNoteForApplication(id: Int)
 
-POST          /lot                        presentation.product.LotController.create
-GET           /lot/:id                    presentation.product.LotController.get(id: Int)
-PUT           /lot                        presentation.product.LotController.update
-DELETE        /lot/:id                    presentation.product.LotController.delete(id: Int)
-GET           /lot                        presentation.product.LotController.getAll
+# -------------------------------------------------------------------------------------------------------------------- #
 
-POST          /product                    presentation.product.ProductController.create
-GET           /product/:id                presentation.product.ProductController.get(id: Int)
-PUT           /product                    presentation.product.ProductController.update
-DELETE        /product/:id                presentation.product.ProductController.delete(id: Int)
-GET           /product                    presentation.product.ProductController.getAll
+POST          /client                                  presentation.http.user.ClientController.create
+GET           /client/:id                              presentation.http.user.ClientController.get(id: Int)
+PUT           /client                                  presentation.http.user.ClientController.update
+DELETE        /client/:id                              presentation.http.user.ClientController.delete(id: Int)
+GET           /client                                  presentation.http.user.ClientController.getAll
 
-POST          /note                       presentation.note.NoteController.create
-GET           /note/:id                   presentation.note.NoteController.get(id: Int)
-PUT           /note                       presentation.note.NoteController.update
-DELETE        /note/:id                   presentation.note.NoteController.delete(id: Int)
-GET           /note                       presentation.note.NoteController.getAll
+POST          /manager                                 presentation.http.user.ManagerController.create
+GET           /manager/:id                             presentation.http.user.ManagerController.get(id: Int)
+PUT           /manager                                 presentation.http.user.ManagerController.update
+DELETE        /manager/:id                             presentation.http.user.ManagerController.delete(id: Int)
+GET           /manager                                 presentation.http.user.ManagerController.getAll
 
-POST          /logisticRequest            presentation.documents.LogisticRequestController.create
-GET           /logisticRequest/:id        presentation.documents.LogisticRequestController.get(id: Int)
-PUT           /logisticRequest            presentation.documents.LogisticRequestController.update
-DELETE        /logisticRequest/:id        presentation.documents.LogisticRequestController.delete(id: Int)
-GET           /logisticRequest            presentation.documents.LogisticRequestController.getAll
+POST          /tracking                                presentation.http.documents.TrackingController.create
+GET           /tracking/:id                            presentation.http.documents.TrackingController.get(id: Int)
+PUT           /tracking                                presentation.http.documents.TrackingController.update
+DELETE        /tracking/:id                            presentation.http.documents.TrackingController.delete(id: Int)
+GET           /tracking                                presentation.http.documents.TrackingController.getAll
 
-POST          /returnRequest            presentation.documents.ReturnRequestController.create
-GET           /returnRequest/:id        presentation.documents.ReturnRequestController.get(id: Int)
-PUT           /returnRequest            presentation.documents.ReturnRequestController.update
-DELETE        /returnRequest/:id        presentation.documents.ReturnRequestController.delete(id: Int)
-GET           /returnRequest            presentation.documents.ReturnRequestController.getAll
+POST          /note                                    presentation.http.note.NoteController.create
+GET           /note/:id                                presentation.http.note.NoteController.get(id: Int)
+PUT           /note                                    presentation.http.note.NoteController.update
+DELETE        /note/:id                                presentation.http.note.NoteController.delete(id: Int)
+GET           /note                                    presentation.http.note.NoteController.getAll
 
-POST          /tracking            presentation.documents.TrackingController.create
-GET           /tracking/:id        presentation.documents.TrackingController.get(id: Int)
-PUT           /tracking            presentation.documents.TrackingController.update
-DELETE        /tracking/:id        presentation.documents.TrackingController.delete(id: Int)
-GET           /tracking            presentation.documents.TrackingController.getAll
+POST          /applications                            presentation.http.documents.ApplicationController.create
+GET           /applications/:id                        presentation.http.documents.ApplicationController.get(id: Int)
+PUT           /applications                            presentation.http.documents.ApplicationController.update
+DELETE        /applications/:id                        presentation.http.documents.ApplicationController.delete(id: Int)
+GET           /applications                            presentation.http.documents.ApplicationController.getAll
+
+GET           /lot                                     presentation.http.LotController.getAll

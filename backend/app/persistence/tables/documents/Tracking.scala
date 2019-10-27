@@ -9,5 +9,5 @@ case class Tracking(override val id: Int,
 
 object Tracking {
   import play.api.libs.json._
-  implicit val student: OFormat[Tracking] = Json.format[Tracking]
+  implicit val tracking: OFormat[Tracking] = Json.format[Tracking]
 }

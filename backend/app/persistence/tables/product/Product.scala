@@ -5,9 +5,10 @@ import persistence.tables.DAOModel
 case class Product(override val id: Int,
                    name: String,
                    description: String,
-                   weight: String) extends DAOModel
+                   weight: Double,
+                   lotId: Int) extends DAOModel
 
 object Product {
   import play.api.libs.json._
-  implicit val student: OFormat[Product] = Json.format[Product]
+  implicit val product: OFormat[Product] = Json.format[Product]
 }
