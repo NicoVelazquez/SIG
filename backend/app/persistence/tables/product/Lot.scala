@@ -6,9 +6,11 @@ import persistence.tables.DAOModel
 
 case class Lot(override val id: Int,
                name: String,
-               date: Date) extends DAOModel
+               creationDate: Date,
+               price: Double,
+               expirationDate: Date) extends DAOModel
 
 object Lot {
   import play.api.libs.json._
-  implicit val student: OFormat[Lot] = Json.format[Lot]
+  implicit val lot: OFormat[Lot] = Json.format[Lot]
 }

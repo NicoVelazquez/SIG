@@ -7,24 +7,24 @@ import scala.concurrent.Future
 
 class TrackingService extends Service[Tracking] {
 
-  import persistence.db.SqlController.ctx._
-  import persistence.db.SqlController.{ctx, exec}
+  import settings.db.SqlController.ctx._
+  import settings.db.SqlController.{ctx, exec}
 
   override def create(t: Tracking): Future[Int] =
     ctx.run(quote(querySchema[Tracking]("tracking_table"))
       .insert(
-        _.addressId -> t.addressId,
-        _.trackingNumber -> t.trackingNumber,
-        _.trackingState -> t.trackingState
+        _.addressId -> lift(t.addressId),
+        _.trackingNumber -> lift(t.trackingNumber),
+        _.trackingState -> lift(t.trackingState)
       ).onConflictIgnore.returning(_.id))
 
   override def update(t: Tracking): Future[Boolean] =
     ctx.run(quote(querySchema[Tracking]("tracking_table"))
       .filter(_.id == lift(t.id))
       .update(
-        _.addressId -> t.addressId,
-        _.trackingNumber -> t.trackingNumber,
-        _.trackingState -> t.trackingState
+        _.addressId -> lift(t.addressId),
+        _.trackingNumber -> lift(t.trackingNumber),
+        _.trackingState -> lift(t.trackingState)
       )
     ).map {
       case 1 => true

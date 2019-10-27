@@ -1,34 +1,40 @@
 package persistence.services.user
 
+import java.util.Date
+
 import persistence.services.Service
+import persistence.tables.address.Address
+import persistence.tables.product.Product
+import persistence.tables.relations.ClientProduct
 import persistence.tables.user.Client
+import presentation.dto.ProductDTO
 
 import scala.concurrent.Future
 
 class ClientService extends Service[Client] {
 
-  import persistence.db.SqlController.ctx._
-  import persistence.db.SqlController.{ctx, exec}
+  import settings.db.SqlController.ctx._
+  import settings.db.SqlController.{ctx, exec}
 
   override def create(t: Client): Future[Int] =
-    ctx.run(quote(querySchema[Client]("client_table"))
+    ctx.run(quote(querySchema[Client]("client"))
       .insert(
-        _.name -> t.name,
-        _.password -> t.password,
-        _.addressId -> t.addressId,
-        _.email -> t.email,
-        _.phone -> t.phone
+        _.name -> lift(t.name),
+        _.password -> lift(t.password),
+        _.addressId -> lift(t.addressId),
+        _.email -> lift(t.email),
+        _.phone -> lift(t.phone)
       ).onConflictIgnore.returning(_.id))
 
   override def update(t: Client): Future[Boolean] =
-    ctx.run(quote(querySchema[Client]("client_table"))
+    ctx.run(quote(querySchema[Client]("client"))
       .filter(_.id == lift(t.id))
       .update(
-        _.name -> t.name,
-        _.password -> t.password,
-        _.addressId -> t.addressId,
-        _.email -> t.email,
-        _.phone -> t.phone
+        _.name -> lift(t.name),
+        _.password -> lift(t.password),
+        _.addressId -> lift(t.addressId),
+        _.email -> lift(t.email),
+        _.phone -> lift(t.phone)
       )
     ).map {
       case 1 => true
@@ -36,14 +42,39 @@ class ClientService extends Service[Client] {
     }
 
   override def delete(id: Int): Future[Boolean] =
-    ctx.run(quote(querySchema[Client]("client_table")).filter(_.id == lift(id)).delete).map {
+    ctx.run(quote(querySchema[Client]("client")).filter(_.id == lift(id)).delete).map {
       case 1 => true
       case _ => false
     }
 
   override def get(id: Int): Future[Option[Client]] =
-    ctx.run(quote(querySchema[Client]("client_table")).filter(_.id == lift(id))).map(_.headOption)
+    ctx.run(quote(querySchema[Client]("client")).filter(_.id == lift(id))).map(_.headOption)
 
   override def getAll: Future[List[Client]] =
-    ctx.run(quote(querySchema[Client]("client_table")))
+    ctx.run(quote(querySchema[Client]("client")))
+
+  def getByEmail(email: String): Future[Option[Client]] =
+    ctx.run(quote(querySchema[Client]("client")).filter(_.email == lift(email))).map(_.headOption)
+
+  def getClientWithAddress(clientId: Int): Future[Option[(Client, Address)]] = {
+    val q = quote {
+      for {
+        a <- querySchema[Address]("address")
+        c <- querySchema[Client]("client") if a.id == c.addressId
+      } yield (c, a)
+    }
+    ctx.run(q.filter(_._1.id == lift(clientId))).map(_.headOption)
+  }
+
+  def getClientProducts(clientId: Int): Future[List[ProductDTO]] = {
+    val q = quote {
+      for {
+        a <- querySchema[ClientProduct]("client_product")
+        p <- querySchema[Product]("product") if p.id == a.productId
+      } yield (a, p)
+    }
+    ctx.run(q.filter(_._1.clientId == lift(clientId)))
+      .map(_.map(cp => ProductDTO(cp._2.id, cp._2.name, new Date(), cp._2.lotId, cp._1.quantity)))
+  }
+
 }

@@ -4,9 +4,10 @@ case class Manager(override val id: Int,
                    override val name: String,
                    override val phone: Int,
                    override val email: String,
-                   password: String) extends User
+                   override val password: String,
+                   override val addressId: Int) extends User
 
 object Manager {
   import play.api.libs.json._
-  implicit val student: OFormat[Manager] = Json.format[Manager]
+  implicit val manager: OFormat[Manager] = Json.format[Manager]
 }
