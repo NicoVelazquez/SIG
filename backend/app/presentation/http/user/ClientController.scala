@@ -107,7 +107,7 @@ class ClientController @Inject()(cc: ControllerComponents)(implicit ex: Executio
 
   def getClientApplications(clientId: Int): Action[AnyContent] = Action.async { _ =>
     applicationService.getAllApplicationWithProducts map {
-      case list => Ok(Json.toJson(list.filter(_.application.clientId == clientId)))
+      case list => Ok(Json.toJson(list.filter(_.clientId == clientId)))
       case _ => NotFound
     } recover {
       case e: Exception => InternalServerError
