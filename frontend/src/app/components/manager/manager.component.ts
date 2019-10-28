@@ -11,8 +11,6 @@ import {AuthService} from '../../shared/services/auth.service';
 export class ManagerComponent implements OnInit {
 
   tab = 'all';
-
-  // TODO - definir los headers de la tabla
   headers: string[] = ['ID', 'Cliente', 'Dia', 'Estado Tracking'];
   applications = [];
   filteredApplications = [];
@@ -23,7 +21,6 @@ export class ManagerComponent implements OnInit {
   }
 
   ngOnInit() {
-    // TODO - definir de donde voy a obtener el id del cliente (podria estar en el LocalStorage al hacer el login)
     this.rs.getManagerApplications().then(data => {
       this.applications = data;
       console.log(this.applications);
@@ -48,15 +45,17 @@ export class ManagerComponent implements OnInit {
         );
         break;
       }
-      case 'controlled': {
-        this.filteredApplications = this.applications.filter(e =>
-          e.client.toLowerCase().includes(this.clientSearch.toLowerCase()) && e.state.toLowerCase() === 'controlada'
-        );
-        break;
-      }
       case 'warehouse': {
         this.filteredApplications = this.applications.filter(e =>
           e.client.toLowerCase().includes(this.clientSearch.toLowerCase()) && e.state.toLowerCase() === 'en almacen'
+        );
+        break;
+      }
+      case 'controlled': {
+        this.filteredApplications = this.applications.filter(e =>
+          // TODO (NV) - descomentar!!!!!!!!!!!!
+          // e.client.toLowerCase().includes(this.clientSearch.toLowerCase()) && e.state.toLowerCase() === 'controlada'
+          e.state.toLowerCase() === 'controlada'
         );
         break;
       }

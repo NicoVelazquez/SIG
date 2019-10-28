@@ -22,8 +22,8 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
   constructor(private rs: HttpRequestsService, private router: Router, private aRoute: ActivatedRoute) {
   }
 
-  async ngOnInit() {
-    await this.aRoute.queryParams.subscribe(params => {
+  ngOnInit() {
+    this.aRoute.queryParams.subscribe(params => {
       // TODO (NV) - Hace falta? O la application ya tiene state?
       if (params.state) {
         this.state = params.state;
@@ -34,8 +34,8 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
     });
 
     this.subscription = this.aRoute.params.subscribe(params => {
-      this.rs.getManagerApplication(params.id).then(data => {
-        this.application = data;
+      this.rs.getApplication(params.id).then(data => {
+        this.application = data[0];
         if (this.application.state.toLowerCase() === 'en almacen') {
           this.application.products.forEach(e => {
             e.accepted = 0;
@@ -51,15 +51,14 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
   }
 
   accept_denyApplication(action: string) {
-    if (action === 'accept') {
-      this.rs.acceptManagerApplication(this.application.id).then(() => {
-        this.router.navigate(['home']);
-      });
-    } else {
-      this.rs.denyManagerApplication(this.application.id).then(() => {
-        this.router.navigate(['home']);
-      });
-    }
+    this.application.state = action;
+    console.log(this.application);
+    this.rs.updateApplication(this.application).then(() => {
+      this.router.navigate(['home']);
+    }).catch(err => {
+      console.log('error en el update application');
+      console.log(err);
+    });
   }
 
   deleteApplication() {
@@ -71,7 +70,8 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
   finishControlling() {
     this.application.state = 'Controlada';
     this.application.observation = this.observations;
-    this.rs.controlledManagerApplication(this.application).then(() => {
+    console.log(this.application);
+    this.rs.updateApplication(this.application).then(() => {
       this.router.navigate(['home']);
     });
   }

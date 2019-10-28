@@ -29,8 +29,8 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = this.aRoute.params.subscribe(params => {
-      this.rs.getManagerApplication(params.id).then(data => {
-        this.application = data;
+      this.rs.getApplication(params.id).then(data => {
+        this.application = data[0];
         this.updatePrices();
         console.log(this.application);
       });
@@ -72,7 +72,10 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
   }
 
   createNote() {
-    this.rs.createManagerNote(this.application, this.noteForm.value).then(() => {
+    const note = this.noteForm.value;
+    note.applicationId = this.application.id;
+    console.log(note);
+    this.rs.createManagerNote(note).then(() => {
       this.router.navigate(['home']);
     });
   }

@@ -17,7 +17,6 @@ export class ClientComponent implements OnInit {
 
   ngOnInit() {
     this.rs.getClientApplications().then(data => {
-      // data.forEach(e => this.applications.push(e.application));
       this.applications = data;
       console.log(this.applications);
     });

@@ -9,10 +9,10 @@
     </button>
     <div class="buttons" *ngIf="state === 'nueva' && userType === 'manager'">
       <button class="uk-button uk-button-primary" style="background-color: #62c24f"
-              (click)="accept_denyApplication('accept')">
+              (click)="accept_denyApplication('Aceptada')">
         Aceptar
       </button>
-      <button class="uk-button uk-button-danger" (click)="accept_denyApplication('deny')">
+      <button class="uk-button uk-button-danger" (click)="accept_denyApplication('Rechazada')">
         Rechazar
       </button>
     </div>

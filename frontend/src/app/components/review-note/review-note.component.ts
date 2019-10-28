@@ -22,14 +22,15 @@ export class ReviewNoteComponent implements OnInit {
 
   ngOnInit() {
     this.subscription = this.aRoute.params.subscribe(params => {
-      this.rs.getNote(params.id).then(data => {
-        this.note = data.note;
-        this.application = data.application;
-      });
+      // this.rs.getNote(params.id).then(data => {
+      //   this.note = data.note;
+      //   this.application = data.application;
+      // });
+      this.rs.getNote(params.id).then(data => this.note = data);
+      this.rs.getApplication(params.id).then(data => this.application = data);
     });
 
     this.aRoute.queryParams.subscribe(params => {
-      // TODO (NV) - Hace falta? O la application ya tiene state?
       if (params.user) {
         this.userType = params.user;
       }
