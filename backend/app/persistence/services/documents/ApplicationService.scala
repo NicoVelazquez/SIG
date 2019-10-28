@@ -74,7 +74,7 @@ class ApplicationService extends Service[Application] {
     }
     ctx.run(q)
       .map(_.map((cp: (Application, ProductApplication, Product)) =>
-        ApplicationsDTO(cp._1, List(ProductDTO(cp._3.id, cp._3.name, new Date(), cp._3.lotId, cp._2.quantity)))))
+        applicationToApplicationsDTO(cp._1, List(ProductDTO(cp._3.id, cp._3.name, new Date(), cp._3.lotId, cp._2.quantity)))))
   }
 
   def getProductsForApplication(applicationId: Int): Future[Iterable[ApplicationsDTO]] = {
@@ -82,7 +82,8 @@ class ApplicationService extends Service[Application] {
       .join(querySchema[Product]("product")).on(_.productId == _.id)
       .join(quote(querySchema[Application]("application")).filter(_.id == lift(applicationId))).on(_._1.applicationId == _.id))
       .map(c => c.groupBy(_._2).map(a =>
-        ApplicationsDTO(a._1, a._2.map(pp => ProductDTO(pp._1._2.id, pp._1._2.name, new Date(), pp._1._2.lotId, pp._1._1.quantity))))
+        applicationToApplicationsDTO(a._1,
+          a._2.map(pp => ProductDTO(pp._1._2.id, pp._1._2.name, new Date(), pp._1._2.lotId, pp._1._1.quantity))))
       )
   }
 
@@ -91,8 +92,13 @@ class ApplicationService extends Service[Application] {
       .join(querySchema[Product]("product")).on(_.productId == _.id)
       .join(quote(querySchema[Application]("application"))).on(_._1.applicationId == _.id))
       .map(c => c.groupBy(_._2).map((a: (Application, immutable.Seq[((ProductApplication, Product), Application)])) =>
-          ApplicationsDTO(a._1, a._2.map(pp => ProductDTO(pp._1._2.id, pp._1._2.name, new Date(), pp._1._2.lotId, pp._1._1.quantity)).toList))
+        applicationToApplicationsDTO(a._1, a._2.map(pp => ProductDTO(pp._1._2.id, pp._1._2.name, new Date(), pp._1._2.lotId, pp._1._1.quantity)).toList))
       )
+  }
+
+  private def applicationToApplicationsDTO(application: Application, products: List[ProductDTO]): ApplicationsDTO = {
+    ApplicationsDTO(application.id, application.clientId, application.date, application.cost, application.state, application.description,
+      application.observation, application.operator_acceptance_date, application.collectionDate, products)
   }
 
 }
