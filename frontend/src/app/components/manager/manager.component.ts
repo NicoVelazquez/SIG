@@ -26,6 +26,7 @@ export class ManagerComponent implements OnInit {
     // TODO - definir de donde voy a obtener el id del cliente (podria estar en el LocalStorage al hacer el login)
     this.rs.getManagerApplications().then(data => {
       this.applications = data;
+      console.log(this.applications);
       this.filteredApplications = data;
       if (!this.authService.isManager()) {
         this.switchTab('warehouse');

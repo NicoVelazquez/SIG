@@ -70,102 +70,101 @@ export class HttpRequestsService {
   // ---------------------------------------------------------------------------------------------------
 
   getManagerApplications(): Promise<any> {
-    // TODO - descomentar y borrar
-    // return this.http.get<any[]>(`${this.url}/manager/applications`).toPromise();
+    return this.http.get<any[]>(`${this.url}/applications`).toPromise();
 
-    return Promise.resolve(
-      [
-        {
-          id: '0', client: 'Velazquez', date: Date.now(), cost: 3, state: 'En Almacen', description: 'asd', products:
-            [
-              {name: 'Pasta', date: Date.now(), lot: 123, quantity: 5},
-              {name: 'Choclo', date: Date.now(), lot: 123, quantity: 5},
-              {name: 'Caca', date: Date.now(), lot: 123, quantity: 5},
-              {name: 'Asd', date: Date.now(), lot: 123, quantity: 5}
-            ]
-        },
-        {
-          id: '1', client: 'Bustamante', date: Date.now(), cost: 3, state: 'Aceptado', description: 'asd', products:
-            [
-              {name: 'Pasta', date: Date.now(), lot: 123, quantity: 5},
-              {name: 'Choclo', date: Date.now(), lot: 123, quantity: 5},
-              {name: 'Caca', date: Date.now(), lot: 123, quantity: 5},
-              {name: 'Asd', date: Date.now(), lot: 123, quantity: 5}
-            ]
-        },
-        {
-          id: '2', client: 'Curat', date: Date.now(), cost: 3, state: 'En Almacen', description: 'asd',
-          products: [
-            {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
-            {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
-            {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
-            {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5}
-          ]
-        },
-        {
-          id: '3', client: 'Curat', date: Date.now(), cost: 3, state: 'Nueva', description: 'asd',
-          products: [
-            {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
-            {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
-            {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
-            {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5}
-          ]
-        },
-        {
-          id: '4', client: 'Curat', date: Date.now(), cost: 3, state: 'Rechazada', description: 'asd',
-          products: [
-            {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
-            {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
-            {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
-            {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5}
-          ]
-        },
-        {
-          id: '5', client: 'Curat', date: Date.now(), cost: 3, state: 'Controlada', description: 'asd', observation: 'todo en orden',
-          products: [
-            {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
-            {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
-            {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
-            {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3}
-          ]
-        },
-        {
-          id: '6', client: 'Curat', date: Date.now(), cost: 3, state: 'Controlada', description: 'asd', observation: 'todo en orden',
-          products: [
-            {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
-            {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
-            {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
-            {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3}
-          ]
-        },
-        {
-          id: '7', client: 'Velazquez', date: Date.now(), cost: 3, state: 'Con Nota', description: 'asd', observation: 'todo en orden',
-          products: [
-            {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
-            {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
-            {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
-            {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3}
-          ]
-        }
-      ]
-    );
-  }
-
-  getManagerApplication(id: any): Promise<any> {
-    // TODO - descomentar y borrar
-    // return this.http.get<any[]>(`${this.url}/manager/applications/${id}`).toPromise();
-
-    return Promise.resolve(
-      {
-        id: '0', client: 'Velazquez', date: Date.now(), cost: 5, state: 'Nueva', description: 'hola', observation: 'todo en orden',
-        products: [
-          {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
-          {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
-          {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
-          {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3}
-        ]
-      }
-    );
+    // return Promise.resolve(
+    //   [
+    //     {
+    //       id: '0', client: 'Velazquez', date: Date.now(), cost: 3, state: 'En Almacen', description: 'asd', products:
+    //         [
+    //           {name: 'Pasta', date: Date.now(), lot: 123, quantity: 5},
+    //           {name: 'Choclo', date: Date.now(), lot: 123, quantity: 5},
+    //           {name: 'Caca', date: Date.now(), lot: 123, quantity: 5},
+    //           {name: 'Asd', date: Date.now(), lot: 123, quantity: 5}
+    //         ]
+    //     },
+    //     {
+    //       id: '1', client: 'Bustamante', date: Date.now(), cost: 3, state: 'Aceptado', description: 'asd', products:
+    //         [
+    //           {name: 'Pasta', date: Date.now(), lot: 123, quantity: 5},
+    //           {name: 'Choclo', date: Date.now(), lot: 123, quantity: 5},
+    //           {name: 'Caca', date: Date.now(), lot: 123, quantity: 5},
+    //           {name: 'Asd', date: Date.now(), lot: 123, quantity: 5}
+    //         ]
+    //     },
+    //     {
+    //       id: '2', client: 'Curat', date: Date.now(), cost: 3, state: 'En Almacen', description: 'asd',
+    //       products: [
+    //         {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
+    //         {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
+    //         {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
+    //         {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5}
+    //       ]
+    //     },
+    //     {
+    //       id: '3', client: 'Curat', date: Date.now(), cost: 3, state: 'Nueva', description: 'asd',
+    //       products: [
+    //         {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
+    //         {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
+    //         {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
+    //         {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5}
+    //       ]
+  //       },
+  //       {
+  //         id: '4', client: 'Curat', date: Date.now(), cost: 3, state: 'Rechazada', description: 'asd',
+  //         products: [
+  //           {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
+  //           {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
+  //           {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5},
+  //           {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5}
+  //         ]
+  //       },
+  //       {
+  //         id: '5', client: 'Curat', date: Date.now(), cost: 3, state: 'Controlada', description: 'asd', observation: 'todo en orden',
+  //         products: [
+  //           {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
+  //           {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
+  //           {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
+  //           {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3}
+  //         ]
+  //       },
+  //       {
+  //         id: '6', client: 'Curat', date: Date.now(), cost: 3, state: 'Controlada', description: 'asd', observation: 'todo en orden',
+  //         products: [
+  //           {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
+  //           {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
+  //           {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
+  //           {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3}
+  //         ]
+  //       },
+  //       {
+  //         id: '7', client: 'Velazquez', date: Date.now(), cost: 3, state: 'Con Nota', description: 'asd', observation: 'todo en orden',
+  //         products: [
+  //           {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
+  //           {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
+  //           {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
+  //           {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3}
+  //         ]
+  //       }
+  //     ]
+  //   );
+  // }
+  //
+  // getManagerApplication(id: any): Promise<any> {
+  //   // TODO - descomentar y borrar
+  //   // return this.http.get<any[]>(`${this.url}/manager/applications/${id}`).toPromise();
+  //
+  //   return Promise.resolve(
+  //     {
+  //       id: '0', client: 'Velazquez', date: Date.now(), cost: 5, state: 'Nueva', description: 'hola', observation: 'todo en orden',
+  //       products: [
+  //         {name: 'Pasta', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
+  //         {name: 'Choclo', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
+  //         {name: 'Caca', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3},
+  //         {name: 'Asd', date: Date.now(), lot: 123, price: 20, weight: 2, quantity: 5, accepted: 4, good: 3}
+  //       ]
+  //     }
+  //   );
   }
 
   controlledManagerApplication(application: any): Promise<any> {
