@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 export class NewApplicationComponent implements OnInit {
 
   applicationForm: FormGroup;
-  headers = ['Nombre', 'Fecha', 'Lote', 'Cantidad'];
+  headers = ['Nombre', 'Lote', 'Fecha de expiración', 'Cantidad'];
   products = [];
 
   selectedProducts = [];
@@ -31,7 +31,10 @@ export class NewApplicationComponent implements OnInit {
     this.applicationForm.patchValue({
       date: this.parseDate(new Date(Date.now()))
     });
-    this.rs.getClientProducts().then(data => this.products = data);
+    this.rs.getClientProducts().then(data => {
+      this.products = data;
+      console.log(this.products);
+    });
   }
 
   parseDate(date: Date): string {
@@ -49,13 +52,15 @@ export class NewApplicationComponent implements OnInit {
 
   addProduct() {
     this.moreProduct = false;
-    this.selectedProduct.quantity = this.selectedQuantity;
+    this.selectedProduct.selectedQuantity = this.selectedQuantity;
     this.selectedProducts.push(this.selectedProduct);
     const index = this.products.findIndex(e => e.id === this.selectedProduct.id);
     this.products.splice(index, 1);
 
     this.selectedProduct = null;
     this.selectedQuantity = 0;
+
+    console.log(this.selectedProducts);
   }
 
   isValidApplication() {
@@ -64,8 +69,15 @@ export class NewApplicationComponent implements OnInit {
 
   createApplication() {
     const newApplication = this.applicationForm.value;
-    newApplication.produts = this.selectedProducts;
-    newApplication.state = 'Enviada';
+    // newApplication.productDTO = this.selectedProducts;
+    // newApplication.state = 'Enviada';
+
+    newApplication.products = [];
+    this.selectedProducts.forEach(e => {
+      newApplication.products.push({productId: e.id, quantity: e.selectedQuantity});
+    });
+
+    console.log(newApplication);
     this.rs.createClientApplication(newApplication).then(() => {
       this.router.navigate(['home']);
     }).catch(err => {

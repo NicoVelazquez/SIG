@@ -16,10 +16,10 @@ export class HttpRequestsService {
   }
 
   signIn(email: string, password: string): Promise<any> {
-    // TODO - descomentar y borrar
     const credentials = {email, password};
     return this.http.post<any[]>(`${this.url}/login`, credentials).toPromise();
 
+    // MOCK
     // return Promise.resolve({id: 1, role: 'client'});
   }
 
@@ -28,35 +28,34 @@ export class HttpRequestsService {
   // ---------------------------------------------------------------------------------------------------
 
   getClientApplications(): Promise<any> {
-    // TODO - descomentar y borrar
-    // return this.http.get<any[]>(`${this.url}/client/${this.currentUser.id}/applications`).toPromise();
+    return this.http.get<any[]>(`${this.url}/client/${this.currentUser.id}/applications`).toPromise();
 
-    return Promise.resolve(
-      [
-        {id: '0', date: Date.now(), state: 'Con Nota'},
-      ]
-    );
+    // MOCK
+    // return Promise.resolve(
+    //   [
+    //     {id: '0', date: Date.now(), state: 'Con Nota'},
+    //   ]
+    // );
   }
 
   getClientProducts(): Promise<any> {
-    // TODO - descomentar y borrar
-    // return this.http.get<any[]>(`${this.url}/client/${this.currentUser.id}/products`).toPromise();
+    return this.http.get<any[]>(`${this.url}/client/${this.currentUser.id}/products`).toPromise();
 
-    return Promise.resolve(
-      [
-        {id: 0, name: 'Pasta', date: Date.now(), lot: 123, quantity: 5},
-        {id: 1, name: 'Choclo', date: Date.now(), lot: 123, quantity: 5},
-        {id: 2, name: 'Caca', date: Date.now(), lot: 123, quantity: 5},
-        {id: 3, name: 'Asd', date: Date.now(), lot: 123, quantity: 5}
-      ]
-    );
+    // MOCK
+    // return Promise.resolve(
+    //   [
+    //     {id: 0, name: 'Pasta', date: Date.now(), lot: 123, quantity: 5},
+    //     {id: 1, name: 'Choclo', date: Date.now(), lot: 123, quantity: 5},
+    //     {id: 2, name: 'Caca', date: Date.now(), lot: 123, quantity: 5},
+    //     {id: 3, name: 'Asd', date: Date.now(), lot: 123, quantity: 5}
+    //   ]
+    // );
   }
 
   createClientApplication(application: any): Promise<any> {
-    // TODO - descomentar y borrar
-    // return this.http.post<any[]>(`${this.url}/client/${this.currentUser.id}/applications`, application).toPromise();
+    return this.http.post<any[]>(`${this.url}/client/${this.currentUser.id}/applications`, application).toPromise();
 
-    return Promise.resolve({id: 99});
+    // return Promise.resolve({id: 99});
   }
 
   deleteClientApplication(id: any) {
