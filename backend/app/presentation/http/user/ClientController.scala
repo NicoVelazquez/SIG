@@ -86,7 +86,7 @@ class ClientController @Inject()(cc: ControllerComponents)(implicit ex: Executio
               "Nueva", applicationDTO.description, None, None, None)
             applicationService.create(application) map { applicationId =>
               // TODO: Delete products from client/product relation. Fix quantity amount
-              applicationDTO.productDTO.foreach(productDTO => {
+              applicationDTO.products.foreach(productDTO => {
                 clientProductService.getProductsFromClient(clientId, productDTO.productId).map { cp =>
                   clientProductService.restoreProductsFromClient(clientId, productDTO.productId, cp.quantity - productDTO.quantity)
                 }
