@@ -81,11 +81,11 @@ export class HttpRequestsService {
     // return Promise.resolve({id: 99});
   }
 
-  deleteClientApplication(id: any) {
-    // TODO - descomentar y borrar
-    // return this.http.delete<any[]>(`${this.url}/client/${this.currentUser.id}/applications/${id}`).toPromise();
+  deleteClientApplication(application: any) {
+    return this.http.delete<any[]>(`${this.url}/client/${this.currentUser.id}/applications/${application.id}`, application).toPromise();
 
-    return Promise.resolve(true);
+    // MOCK
+    // return Promise.resolve(true);
   }
 
   // ---------------------------------------------------------------------------------------------------
