@@ -6,7 +6,8 @@ import persistence.services.Service
 import persistence.tables.documents.Application
 import persistence.tables.product.Product
 import persistence.tables.relations.ProductApplication
-import presentation.dto.{ApplicationsDTO, ProductDTO}
+import persistence.tables.user.Client
+import presentation.dto.{ApplicationResponse, ApplicationsDTO, ProductDTO}
 
 import scala.collection.immutable
 import scala.concurrent.Future
@@ -58,47 +59,48 @@ class ApplicationService extends Service[Application] {
 
   override def getAll: Future[List[Application]] = ctx.run(quote(querySchema[Application]("application")))
 
-//  def getClientApplications(clientId: Int) = {
-//    ctx.run(quote(querySchema[Application]("application").filter(_.clientId == lift(clientId))
-//      .join(querySchema[ProductApplication]("product_application")).on(_.id == _.applicationId)))
-//      .map(groupAndListApplicationProducts)
-//  }
-
-  def getClientApplications(clientId: Int): Future[List[ApplicationsDTO]] = {
+  def getClientApplications(clientId: Int): Future[List[ApplicationResponse]] = {
     val q = quote {
       for {
         a <- querySchema[Application]("application") if a.clientId == lift(clientId)
         p <- querySchema[ProductApplication]("product_application") if a.id == p.applicationId
-        c <- querySchema[Product]("product") if p.id == p.productId
-      } yield (a, p, c)
+        c <- querySchema[Product]("product") if c.id == p.productId
+        d <- querySchema[Client]("client") if d.id == a.clientId
+      } yield (a, p, c, d)
     }
     ctx.run(q)
-      .map(_.map((cp: (Application, ProductApplication, Product)) =>
-        applicationToApplicationsDTO(cp._1, List(ProductDTO(cp._3.id, cp._3.name, new Date(), cp._3.lotId, cp._2.quantity)))))
+      .map(_.map((cp: (Application, ProductApplication, Product, Client)) =>
+        applicationToApplicationsResponse(cp._1, List(ProductDTO(cp._3.id, cp._3.name, new Date(), cp._3.lotId, cp._2.quantity)), cp._4.name)))
+      .map(groupById)
   }
 
-  def getProductsForApplication(applicationId: Int): Future[Iterable[ApplicationsDTO]] = {
-    ctx.run(quote(querySchema[ProductApplication]("product_application"))
-      .join(querySchema[Product]("product")).on(_.productId == _.id)
-      .join(quote(querySchema[Application]("application")).filter(_.id == lift(applicationId))).on(_._1.applicationId == _.id))
-      .map(c => c.groupBy(_._2).map(a =>
-        applicationToApplicationsDTO(a._1,
-          a._2.map(pp => ProductDTO(pp._1._2.id, pp._1._2.name, new Date(), pp._1._2.lotId, pp._1._1.quantity))))
-      )
+  def getAllApplications: Future[List[ApplicationResponse]] = {
+    val q = quote {
+      for {
+        a <- querySchema[Application]("application")
+        p <- querySchema[ProductApplication]("product_application") if a.id == p.applicationId
+        c <- querySchema[Product]("product") if c.id == p.productId
+        d <- querySchema[Client]("client") if d.id == a.clientId
+      } yield (a, p, c, d)
+    }
+    ctx.run(q)
+      .map(_.map((cp: (Application, ProductApplication, Product, Client)) =>
+        applicationToApplicationsResponse(cp._1, List(ProductDTO(cp._3.id, cp._3.name, new Date(), cp._3.lotId, cp._2.quantity)), cp._4.name)))
+      .map(groupById)
   }
 
-  def getAllApplicationWithProducts: Future[Iterable[ApplicationsDTO]] = {
-    ctx.run(quote(querySchema[ProductApplication]("product_application"))
-      .join(querySchema[Product]("product")).on(_.productId == _.id)
-      .join(quote(querySchema[Application]("application"))).on(_._1.applicationId == _.id))
-      .map(c => c.groupBy(_._2).map((a: (Application, immutable.Seq[((ProductApplication, Product), Application)])) =>
-        applicationToApplicationsDTO(a._1, a._2.map(pp => ProductDTO(pp._1._2.id, pp._1._2.name, new Date(), pp._1._2.lotId, pp._1._1.quantity)).toList))
-      )
-  }
-
-  private def applicationToApplicationsDTO(application: Application, products: List[ProductDTO]): ApplicationsDTO = {
-    ApplicationsDTO(application.id, application.clientId, application.date, application.cost, application.state, application.description,
+  private def applicationToApplicationsResponse(application: Application, products: List[ProductDTO], client: String): ApplicationResponse = {
+    ApplicationResponse(application.id, client, application.date, application.cost, application.state, application.description,
       application.observation, application.operator_acceptance_date, application.collectionDate, products)
+  }
+
+  private def groupById(list: List[ApplicationResponse]): List[ApplicationResponse] = {
+    list.groupBy(_.id).map((e: (Int, List[ApplicationResponse])) => {
+      val application = e._2.head
+      val products: List[ProductDTO] = e._2.flatMap(_.products)
+      ApplicationResponse(application.id, application.client, application.date, application.cost, application.state, application.description,
+        application.observation, application.operator_acceptance_date, application.collectionDate, products)
+    }).toList
   }
 
 }

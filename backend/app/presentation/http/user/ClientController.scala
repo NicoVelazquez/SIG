@@ -11,7 +11,7 @@ import persistence.tables.relations.ProductApplication
 import persistence.tables.user.Client
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
-import presentation.dto.{ApplicationDTO, ProductDTO}
+import presentation.dto.{ApplicationDTO, ApplicationResponse, ProductDTO}
 
 import scala.concurrent.{ExecutionContext, Future}
 
@@ -106,8 +106,15 @@ class ClientController @Inject()(cc: ControllerComponents)(implicit ex: Executio
   }
 
   def getClientApplications(clientId: Int): Action[AnyContent] = Action.async { _ =>
-    applicationService.getAllApplicationWithProducts map {
-      case list => Ok(Json.toJson(list.filter(_.clientId == clientId)))
+    applicationService.getClientApplications(clientId) map {
+      case list =>
+        val update = list.groupBy(_.id).map((e: (Int, List[ApplicationResponse])) => {
+          val application = e._2.head
+          val products: List[ProductDTO] = e._2.flatMap(_.products)
+          ApplicationResponse(application.id, application.client, application.date, application.cost, application.state, application.description,
+            application.observation, application.operator_acceptance_date, application.collectionDate, products)
+        })
+        Ok(Json.toJson(update))
       case _ => NotFound
     } recover {
       case e: Exception => InternalServerError
