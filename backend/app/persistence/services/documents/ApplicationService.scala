@@ -7,9 +7,8 @@ import persistence.tables.documents.Application
 import persistence.tables.product.Product
 import persistence.tables.relations.ProductApplication
 import persistence.tables.user.Client
-import presentation.dto.{ApplicationResponse, ApplicationsDTO, ProductDTO}
+import presentation.dto.{ApplicationResponse, Applications, ProductApplications, ProductDTO}
 
-import scala.collection.immutable
 import scala.concurrent.Future
 
 class ApplicationService extends Service[Application] {
@@ -74,7 +73,7 @@ class ApplicationService extends Service[Application] {
       .map(groupById)
   }
 
-  def getAllApplications: Future[List[ApplicationResponse]] = {
+  def getAllApplications: Future[List[Applications]] = {
     val q = quote {
       for {
         a <- querySchema[Application]("application")
@@ -85,12 +84,18 @@ class ApplicationService extends Service[Application] {
     }
     ctx.run(q)
       .map(_.map((cp: (Application, ProductApplication, Product, Client)) =>
-        applicationToApplicationsResponse(cp._1, List(ProductDTO(cp._3.id, cp._3.name, new Date(), cp._3.lotId, cp._2.quantity)), cp._4.name)))
-      .map(groupById)
+        applicationToApplications(cp._1,
+          List(ProductApplications(cp._3.id, cp._3.name, new Date(), cp._3.lotId, cp._2.quantity, cp._3.weight, cp._2.accepted, cp._2.good)), cp._4.name)))
+      .map(groupByIdApplications)
   }
 
   private def applicationToApplicationsResponse(application: Application, products: List[ProductDTO], client: String): ApplicationResponse = {
     ApplicationResponse(application.id, client, application.date, application.cost, application.state, application.description,
+      application.observation, application.operator_acceptance_date, application.collectionDate, products)
+  }
+
+  private def applicationToApplications(application: Application, products: List[ProductApplications], client: String): Applications = {
+    Applications(application.id, client, application.date, application.cost, application.state, application.description,
       application.observation, application.operator_acceptance_date, application.collectionDate, products)
   }
 
@@ -99,6 +104,15 @@ class ApplicationService extends Service[Application] {
       val application = e._2.head
       val products: List[ProductDTO] = e._2.flatMap(_.products)
       ApplicationResponse(application.id, application.client, application.date, application.cost, application.state, application.description,
+        application.observation, application.operator_acceptance_date, application.collectionDate, products)
+    }).toList
+  }
+
+  private def groupByIdApplications(list: List[Applications]): List[Applications] = {
+    list.groupBy(_.id).map((e: (Index, List[Applications])) => {
+      val application = e._2.head
+      val products: List[ProductApplications] = e._2.flatMap(_.products)
+      Applications(application.id, application.client, application.date, application.cost, application.state, application.description,
         application.observation, application.operator_acceptance_date, application.collectionDate, products)
     }).toList
   }
