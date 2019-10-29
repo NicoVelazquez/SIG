@@ -64,12 +64,13 @@ class ApplicationService extends Service[Application] {
         a <- querySchema[Application]("application") if a.clientId == lift(clientId)
         p <- querySchema[ProductApplication]("product_application") if a.id == p.applicationId
         c <- querySchema[Product]("product") if c.id == p.productId
+        l <- querySchema[Lot]("lot") if l.id == c.lotId
         d <- querySchema[Client]("client") if d.id == a.clientId
-      } yield (a, p, c, d)
+      } yield (a, p, c, l, d)
     }
     ctx.run(q)
-      .map(_.map((cp: (Application, ProductApplication, Product, Client)) =>
-        applicationToApplicationsResponse(cp._1, List(ProductDTO(cp._3.id, cp._3.name, new Date(), cp._3.lotId, cp._2.quantity)), cp._4.name)))
+      .map(_.map((cp: (Application, ProductApplication, Product, Lot, Client)) =>
+        applicationToApplicationsResponse(cp._1, List(ProductDTO(cp._3.id, cp._3.name, cp._4.expirationDate, cp._3.lotId, cp._2.quantity)), cp._5.name)))
       .map(groupById)
   }
 
