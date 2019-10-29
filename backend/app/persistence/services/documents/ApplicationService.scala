@@ -89,22 +89,6 @@ class ApplicationService extends Service[Application] {
       .map(groupById)
   }
 
-
-  def getProductsForApplication(applicationId: Int): Future[ApplicationsDTO] = {
-    ctx.run(quote(querySchema[ProductApplication]("product_application"))
-      .join(querySchema[Product]("product")).on(_.productId == _.id)
-      .join(quote(querySchema[Application]("application")).filter(_.id == lift(applicationId))).on(_._1.applicationId == _.id))
-      .map(c => c.groupBy(_._2).map(a =>
-        applicationToApplicationsDTO(a._1,
-          a._2.map(pp => ProductDTO(pp._1._2.id, pp._1._2.name, new Date(), pp._1._2.lotId, pp._1._1.quantity))))
-      ).map(_.head)
-  }
-
-  private def applicationToApplicationsDTO(application: Application, products: List[ProductDTO]): ApplicationsDTO = {
-    ApplicationsDTO(application.id, application.clientId, application.date, application.cost, application.state, application.description,
-      application.observation, application.operator_acceptance_date, application.collectionDate, products)
-  }
-
   private def applicationToApplicationsResponse(application: Application, products: List[ProductDTO], client: String): ApplicationResponse = {
     ApplicationResponse(application.id, client, application.date, application.cost, application.state, application.description,
       application.observation, application.operator_acceptance_date, application.collectionDate, products)
