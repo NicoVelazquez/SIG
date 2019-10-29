@@ -39,6 +39,7 @@ object ApplicationResponse {
 }
 
 case class Applications(id: Int,
+                        clientId: Int,
                         client: String,
                         date: Date,
                         cost: Int,

@@ -7,7 +7,6 @@ import presentation.dto.ProductApplications
 
 case class Application(override val id: Int,
                        clientId: Int,
-                       client: String,
                        date: Date,
                        cost: Int,
                        state: String,
