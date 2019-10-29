@@ -18,7 +18,6 @@ export class ClientComponent implements OnInit {
   ngOnInit() {
     this.rs.getClientApplications().then(data => {
       this.applications = data;
-      console.log(this.applications);
     });
   }
 

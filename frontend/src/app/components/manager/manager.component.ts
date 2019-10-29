@@ -23,7 +23,6 @@ export class ManagerComponent implements OnInit {
   ngOnInit() {
     this.rs.getManagerApplications().then(data => {
       this.applications = data;
-      console.log(this.applications);
       this.filteredApplications = data;
       if (!this.authService.isManager()) {
         this.switchTab('warehouse');
@@ -48,7 +47,6 @@ export class ManagerComponent implements OnInit {
         setTimeout(() => {
           e.state = 'Recolectada';
           e.collectionDate = new Date();
-          console.log(e);
           this.rs.updateApplication(e);
           this.checkAcceptedApplications();
         }, 10000);

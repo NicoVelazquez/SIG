@@ -33,7 +33,6 @@ export class NewApplicationComponent implements OnInit {
     });
     this.rs.getClientProducts().then(data => {
       this.products = data;
-      console.log(this.products);
     });
   }
 
@@ -45,9 +44,7 @@ export class NewApplicationComponent implements OnInit {
   }
 
   selectProduct($event: any) {
-    console.log($event.target.value);
     this.selectedProduct = this.products.filter(e => e.id === +$event.target.value)[0];
-    console.log(this.selectedProduct);
   }
 
   addProduct() {
@@ -59,8 +56,6 @@ export class NewApplicationComponent implements OnInit {
 
     this.selectedProduct = null;
     this.selectedQuantity = 0;
-
-    console.log(this.selectedProducts);
   }
 
   isValidApplication() {
@@ -69,15 +64,12 @@ export class NewApplicationComponent implements OnInit {
 
   createApplication() {
     const newApplication = this.applicationForm.value;
-    // newApplication.productDTO = this.selectedProducts;
-    // newApplication.state = 'Enviada';
 
     newApplication.products = [];
     this.selectedProducts.forEach(e => {
       newApplication.products.push({productId: e.id, quantity: e.selectedQuantity});
     });
 
-    console.log(newApplication);
     this.rs.createClientApplication(newApplication).then(() => {
       this.router.navigate(['home']);
     }).catch(err => {

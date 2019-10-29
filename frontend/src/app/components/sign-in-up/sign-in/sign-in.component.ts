@@ -42,7 +42,6 @@ export class SignInComponent implements OnInit {
 
   signIn() {
     this.rs.signIn(this.signInForm.value.email, this.signInForm.value.password).then(data => {
-      console.log(data);
       const user = {id: data.id, role: data.role};
       this.rs.setCurrentUser(user);
       localStorage.setItem('user', JSON.stringify(user));

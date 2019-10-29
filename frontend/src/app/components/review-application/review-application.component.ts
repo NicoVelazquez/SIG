@@ -36,7 +36,6 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
     this.subscription = this.aRoute.params.subscribe(params => {
       this.rs.getApplication(params.id).then(data => {
         this.application = data;
-        console.log(this.application);
         if (this.application.state.toLowerCase() === 'en almacen') {
           this.application.products.forEach(e => {
             e.accepted = 0;
@@ -53,7 +52,6 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
 
   accept_denyApplication(action: string) {
     this.application.state = action;
-    console.log(this.application);
     this.rs.updateApplication(this.application).then(() => {
       this.router.navigate(['home']);
     }).catch(err => {
@@ -63,7 +61,6 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
   }
 
   deleteApplication() {
-    console.log(this.application);
     this.rs.deleteClientApplication(this.application).then(() => {
       this.router.navigate(['home']);
     });
@@ -72,7 +69,6 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
   finishControlling() {
     this.application.state = 'Controlada';
     this.application.observation = this.observation;
-    console.log(this.application);
     this.rs.updateApplication(this.application).then(() => {
       this.router.navigate(['home']);
     });

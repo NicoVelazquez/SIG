@@ -22,17 +22,11 @@ export class ReviewNoteComponent implements OnInit {
 
   ngOnInit() {
     this.subscription = this.aRoute.params.subscribe(params => {
-      // this.rs.getNote(params.id).then(data => {
-      //   this.note = data.note;
-      //   this.application = data.application;
-      // });
       this.rs.getNote(params.id).then(data => {
         this.note = data;
-        console.log(this.note);
       });
       this.rs.getApplication(params.id).then(data => {
         this.application = data;
-        console.log(this.application);
       });
     });
 

@@ -32,7 +32,6 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
       this.rs.getApplication(params.id).then(data => {
         this.application = data;
         this.updatePrices();
-        console.log(this.application);
       });
     });
 
@@ -77,7 +76,6 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
     const note = this.noteForm.value;
     note.id = 0;
     note.applicationId = this.application.id;
-    console.log(note);
     this.rs.createManagerNote(note).then(() => {
       this.application.state = 'Con Nota';
       this.rs.updateApplication(this.application).then(() => {
