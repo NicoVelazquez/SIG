@@ -54,6 +54,8 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
 
   validateAcceptedGoodQuantity($event: any, product: any) {
     this.canFinishNote = (product.quantity >= product.accepted && product.accepted >= product.good && product.good >= 0);
+
+    this.updatePrices();
   }
 
   updatePrices() {
@@ -73,10 +75,14 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
 
   createNote() {
     const note = this.noteForm.value;
+    note.id = 0;
     note.applicationId = this.application.id;
     console.log(note);
     this.rs.createManagerNote(note).then(() => {
-      this.router.navigate(['home']);
+      this.application.state = 'Con Nota';
+      this.rs.updateApplication(this.application).then(() => {
+        this.router.navigate(['home']);
+      });
     });
   }
 }

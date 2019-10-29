@@ -40,7 +40,7 @@
             <tr class="row" *ngFor="let p of selectedProducts">
               <td>{{p?.name}}</td>
               <td>{{p?.lot}}</td>
-              <td>{{p?.expirationDate | date}}</td>
+              <td>{{p?.date | date}}</td>
               <td>{{p?.selectedQuantity}}</td>
             </tr>
             </tbody>
@@ -61,7 +61,7 @@
 
             <select class="selectProducts uk-select" id="form-stacked-select" (change)="selectProduct($event)">
               <option disabled selected>Seleccione producto</option>
-              <option *ngFor="let p of products" [value]="p.id">{{p.name}} | Lote: {{p.lot}} | Expiración: {{p.expirationDate}} | Cantidad: {{p.quantity}}</option>
+              <option *ngFor="let p of products" [value]="p.id">{{p.name}} | Lote: {{p.lot}} | Expiración: {{p.date | date}} | Cantidad: {{p.quantity}}</option>
             </select>
 
             <input class="selectQuantity uk-input" id="quantity" type="number" min="0"

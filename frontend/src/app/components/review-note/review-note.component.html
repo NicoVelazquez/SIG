@@ -15,7 +15,7 @@
         <div class="uk-margin" style="width: 50%">
           <label class="uk-form-label" for="note-date">Fecha</label>
           <div class="uk-form-controls">
-            <input class="uk-input" id="note-date" type="date" disabled value="{{note?.date}}">
+            <input class="uk-input" id="note-date" type="text" disabled value="{{note?.date | date: 'dd/MM/yyyy - hh:mm'}}">
           </div>
         </div>
       </div>

@@ -26,8 +26,14 @@ export class ReviewNoteComponent implements OnInit {
       //   this.note = data.note;
       //   this.application = data.application;
       // });
-      this.rs.getNote(params.id).then(data => this.note = data);
-      this.rs.getApplication(params.id).then(data => this.application = data);
+      this.rs.getNote(params.id).then(data => {
+        this.note = data;
+        console.log(this.note);
+      });
+      this.rs.getApplication(params.id).then(data => {
+        this.application = data;
+        console.log(this.application);
+      });
     });
 
     this.aRoute.queryParams.subscribe(params => {
