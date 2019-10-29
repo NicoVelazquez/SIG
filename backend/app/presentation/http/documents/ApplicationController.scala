@@ -39,7 +39,7 @@ class ApplicationController @Inject()(cc: ControllerComponents)(implicit ex: Exe
         service.update(update) map {
           case true =>
             // Update accepted & good
-            model.product.map(p =>
+            model.products.map(p =>
               productApplicationService.update(ProductApplication(p.paId, p.quantity, model.id, p.id, None, p.accepted, p.good))
             )
 //            Future.sequence(list)

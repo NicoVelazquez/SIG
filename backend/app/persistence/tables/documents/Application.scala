@@ -30,7 +30,7 @@ case class ApplicationUpdate(override val id: Int,
                              observation: Option[String],
                              operator_acceptance_date: Option[Date],
                              collectionDate: Option[Date],
-                             product: List[ProductApplications]) extends DAOModel
+                             products: List[ProductApplications]) extends DAOModel
 object ApplicationUpdate {
   import play.api.libs.json._
   implicit val applicationUpdate: OFormat[ApplicationUpdate] = Json.format[ApplicationUpdate]
