@@ -15,6 +15,10 @@ export class HttpRequestsService {
     this.currentUser = JSON.parse(localStorage.getItem('user'));
   }
 
+  setCurrentUser(user: any) {
+    this.currentUser = user;
+  }
+
   signIn(email: string, password: string): Promise<any> {
     const credentials = {email, password};
     return this.http.post<any[]>(`${this.url}/login`, credentials).toPromise();
