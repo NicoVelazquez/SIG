@@ -46,7 +46,7 @@ class LoginController @Inject()(cc: ControllerComponents)(implicit ex: Execution
   private def getControllerDni(loginDTO: LoginDTO): Future[Result] = {
     controllerService.getByEmail(loginDTO.email) map {
       case Some(manager: Controller) =>
-        if (manager.password == loginDTO.password) Ok(Json.toJson(LoginResponse(manager.id, "manager")))
+        if (manager.password == loginDTO.password) Ok(Json.toJson(LoginResponse(manager.id, "controller")))
         else Unauthorized
       case None => NotFound
     }
