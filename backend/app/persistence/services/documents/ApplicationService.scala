@@ -21,6 +21,7 @@ class ApplicationService extends Service[Application] {
       .insert(
         _.date -> lift(t.date),
         _.clientId -> lift(t.clientId),
+        _.client -> lift(t.client),
         _.description -> lift(t.description),
         _.cost -> lift(t.cost),
         _.state -> lift(t.state),
@@ -35,6 +36,7 @@ class ApplicationService extends Service[Application] {
       .update(
         _.date -> lift(t.date),
         _.clientId -> lift(t.clientId),
+        _.client -> lift(t.client),
         _.description -> lift(t.description),
         _.cost -> lift(t.cost),
         _.state -> lift(t.state),
@@ -64,12 +66,11 @@ class ApplicationService extends Service[Application] {
         a <- querySchema[Application]("application") if a.clientId == lift(clientId)
         p <- querySchema[ProductApplication]("product_application") if a.id == p.applicationId
         c <- querySchema[Product]("product") if c.id == p.productId
-        d <- querySchema[Client]("client") if d.id == a.clientId
-      } yield (a, p, c, d)
+      } yield (a, p, c)
     }
     ctx.run(q)
-      .map(_.map((cp: (Application, ProductApplication, Product, Client)) =>
-        applicationToApplicationsResponse(cp._1, List(ProductDTO(cp._3.id, cp._3.name, new Date(), cp._3.lotId, cp._2.quantity)), cp._4.name)))
+      .map(_.map((cp: (Application, ProductApplication, Product)) =>
+        applicationToApplicationsResponse(cp._1, List(ProductDTO(cp._3.id, cp._3.name, new Date(), cp._3.lotId, cp._2.quantity)), cp._1.client)))
       .map(groupById)
   }
 
@@ -80,13 +81,13 @@ class ApplicationService extends Service[Application] {
         p <- querySchema[ProductApplication]("product_application") if a.id == p.applicationId
         c <- querySchema[Product]("product") if c.id == p.productId
         l <- querySchema[Lot]("lot") if l.id == c.lotId
-        d <- querySchema[Client]("client") if d.id == a.clientId
-      } yield (a, p, c, l, d)
+      } yield (a, p, c, l)
     }
     ctx.run(q)
-      .map(_.map((cp: (Application, ProductApplication, Product, Lot, Client)) =>
+      .map(_.map((cp: (Application, ProductApplication, Product, Lot)) =>
         applicationToApplications(cp._1,
-          List(ProductApplications(cp._3.id, cp._3.name, cp._4.expirationDate, cp._4.name, cp._2.quantity, cp._3.weight, cp._4.price, cp._2.accepted, cp._2.good)), cp._5.name)))
+          List(ProductApplications(cp._2.id, cp._3.id, cp._3.name, cp._4.expirationDate, cp._4.name, cp._2.quantity, cp._3.weight,
+            cp._4.price, cp._2.accepted, cp._2.good)), cp._1.client)))
       .map(groupByIdApplications)
   }
 
@@ -119,3 +120,5 @@ class ApplicationService extends Service[Application] {
   }
 
 }
+
+case class EverythingJoin(application: Application, productApplication: ProductApplication, product: Product, lot: Lot, client: Client)
