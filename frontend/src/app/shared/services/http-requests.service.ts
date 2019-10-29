@@ -6,9 +6,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class HttpRequestsService {
 
-  // TODO - setear url para pegarle al back
   url = 'http://localhost:9000';
-
   currentUser: any;
 
   constructor(private http: HttpClient) {

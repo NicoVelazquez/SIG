@@ -28,6 +28,38 @@ export class ManagerComponent implements OnInit {
       if (!this.authService.isManager()) {
         this.switchTab('warehouse');
       }
+
+      this.checkAcceptedApplications();
+    });
+  }
+
+  checkAcceptedApplications() {
+    this.applications.forEach(e => {
+      if (e.state.toLowerCase() === 'aceptada') {
+        setTimeout(() => {
+          e.state = 'En Camino';
+          e.operator_acceptance_date = new Date();
+          this.rs.updateApplication(e);
+          this.checkAcceptedApplications();
+        }, 10000);
+      }
+
+      if (e.state.toLowerCase() === 'en camino') {
+        setTimeout(() => {
+          e.state = 'Recolectada';
+          e.collectionDate = new Date();
+          console.log(e);
+          this.rs.updateApplication(e);
+          this.checkAcceptedApplications();
+        }, 10000);
+      }
+
+      if (e.state.toLowerCase() === 'recolectada') {
+        setTimeout(() => {
+          e.state = 'En Almacen';
+          this.rs.updateApplication(e);
+        }, 10000);
+      }
     });
   }
 
