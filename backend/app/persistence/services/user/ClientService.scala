@@ -4,7 +4,7 @@ import java.util.Date
 
 import persistence.services.Service
 import persistence.tables.address.Address
-import persistence.tables.product.Product
+import persistence.tables.product.{Lot, Product}
 import persistence.tables.relations.ClientProduct
 import persistence.tables.user.Client
 import presentation.dto.ProductDTO
@@ -71,10 +71,11 @@ class ClientService extends Service[Client] {
       for {
         a <- querySchema[ClientProduct]("client_product")
         p <- querySchema[Product]("product") if p.id == a.productId
-      } yield (a, p)
+        l <- querySchema[Lot]("lot") if l.id == p.lotId
+      } yield (a, p, l)
     }
     ctx.run(q.filter(_._1.clientId == lift(clientId)))
-      .map(_.map(cp => ProductDTO(cp._2.id, cp._2.name, new Date(), cp._2.lotId, cp._1.quantity)))
+      .map(_.map(cp => ProductDTO(cp._2.id, cp._2.name, cp._3.expirationDate, cp._2.lotId, cp._1.quantity)))
   }
 
 }
