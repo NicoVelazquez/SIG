@@ -61,7 +61,7 @@
 
             <select class="selectProducts uk-select" id="form-stacked-select" (change)="selectProduct($event)">
               <option disabled selected>Seleccione producto</option>
-              <option *ngFor="let p of products" [value]="p.id">{{p.name}} | Lote: {{p.lot}} | Expiración: {{p.expirationDate}} |Cantidad: {{p.quantity}}</option>
+              <option *ngFor="let p of products" [value]="p.id">{{p.name}} | Lote: {{p.lot}} | Expiración: {{p.expirationDate}} | Cantidad: {{p.quantity}}</option>
             </select>
 
             <input class="selectQuantity uk-input" id="quantity" type="number" min="0"
