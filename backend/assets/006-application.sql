@@ -12,8 +12,7 @@ create table application
 	observation varchar(256),
 	date date,
 	operator_acceptance_date date,
-	collection_date date,
-	client varchar(256)
+	collection_date date
 );
 
 alter table application owner to postgres;

@@ -34,7 +34,7 @@ class ApplicationController @Inject()(cc: ControllerComponents)(implicit ex: Exe
     Json.fromJson[ApplicationUpdate](request.body).fold(
       _ => Future.successful(BadRequest),
       model => {
-        val update = Application(model.id, model.clientId, model.client, model.date, model.cost, model.state, model.description,
+        val update = Application(model.id, model.clientId, model.date, model.cost, model.state, model.description,
           model.observation, model.operator_acceptance_date, model.collectionDate)
         service.update(update) map {
           case true =>
