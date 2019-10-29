@@ -3,8 +3,10 @@ package presentation.http.documents
 import javax.inject.Inject
 import persistence.services.ServiceFactory
 import persistence.services.documents.ApplicationService
+import persistence.services.relations.ProductApplicationService
 import persistence.services.user.ClientService
-import persistence.tables.documents.Application
+import persistence.tables.documents.{Application, ApplicationUpdate}
+import persistence.tables.relations.ProductApplication
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
 
@@ -14,6 +16,7 @@ class ApplicationController @Inject()(cc: ControllerComponents)(implicit ex: Exe
   extends AbstractController(cc) {
 
   private val service: ApplicationService = ServiceFactory.applicationService
+  var productApplicationService: ProductApplicationService = ServiceFactory.productApplicationService
 
   def create(): Action[JsValue] = Action.async(parse.json) { request =>
     Json.fromJson[Application](request.body).fold(
@@ -28,11 +31,19 @@ class ApplicationController @Inject()(cc: ControllerComponents)(implicit ex: Exe
   }
 
   def update(): Action[JsValue] = Action.async(parse.json) { request =>
-    Json.fromJson[Application](request.body).fold(
+    Json.fromJson[ApplicationUpdate](request.body).fold(
       _ => Future.successful(BadRequest),
       model => {
-        service.update(model) map {
-          case true => Ok
+        val update = Application(model.id, model.clientId, model.client, model.date, model.cost, model.state, model.description,
+          model.observation, model.operator_acceptance_date, model.collectionDate)
+        service.update(update) map {
+          case true =>
+            // Update accepted & good
+            model.product.map(p =>
+              productApplicationService.update(ProductApplication(p.paId, p.quantity, model.id, p.id, None, p.accepted, p.good))
+            )
+//            Future.sequence(list)
+            Ok
           case false => NotFound
         }
       }

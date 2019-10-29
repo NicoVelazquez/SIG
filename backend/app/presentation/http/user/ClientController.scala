@@ -81,8 +81,8 @@ class ClientController @Inject()(cc: ControllerComponents)(implicit ex: Executio
       _ => Future.successful(BadRequest),
       applicationDTO => {
         service.getClientWithAddress(clientId) flatMap {
-          case Some((_: Client, address: Address)) =>
-            val application = Application(0, clientId, applicationDTO.date, address.cost,
+          case Some((c: Client, address: Address)) =>
+            val application = Application(0, clientId, c.name, applicationDTO.date, address.cost,
               "Nueva", applicationDTO.description, None, None, None)
             applicationService.create(application) map { applicationId =>
               // TODO: Delete products from client/product relation. Fix quantity amount
