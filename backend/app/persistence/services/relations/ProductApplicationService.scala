@@ -58,7 +58,7 @@ class ProductApplicationService extends Service[ProductApplication] {
       }
   }
 
-  def deleteWithApplicationId(appId: Int) = {
+  def deleteWithApplicationId(appId: Int): Future[Boolean] = {
     ctx.run(quote(querySchema[ProductApplication]("product_application"))
       .filter(_.applicationId == lift(appId)).delete)
       .map {
