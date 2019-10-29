@@ -4,7 +4,7 @@ import java.util.Date
 
 import persistence.services.Service
 import persistence.tables.documents.Application
-import persistence.tables.product.Product
+import persistence.tables.product.{Lot, Product}
 import persistence.tables.relations.ProductApplication
 import persistence.tables.user.Client
 import presentation.dto.{ApplicationResponse, Applications, ProductApplications, ProductDTO}
@@ -79,13 +79,14 @@ class ApplicationService extends Service[Application] {
         a <- querySchema[Application]("application")
         p <- querySchema[ProductApplication]("product_application") if a.id == p.applicationId
         c <- querySchema[Product]("product") if c.id == p.productId
+        l <- querySchema[Lot]("lot") if l.id == c.lotId
         d <- querySchema[Client]("client") if d.id == a.clientId
-      } yield (a, p, c, d)
+      } yield (a, p, c, l, d)
     }
     ctx.run(q)
-      .map(_.map((cp: (Application, ProductApplication, Product, Client)) =>
+      .map(_.map((cp: (Application, ProductApplication, Product, Lot, Client)) =>
         applicationToApplications(cp._1,
-          List(ProductApplications(cp._3.id, cp._3.name, new Date(), cp._3.lotId, cp._2.quantity, cp._3.weight, cp._2.accepted, cp._2.good)), cp._4.name)))
+          List(ProductApplications(cp._3.id, cp._3.name, cp._4.expirationDate, cp._4.name, cp._2.quantity, cp._3.weight, cp._4.price, cp._2.accepted, cp._2.good)), cp._5.name)))
       .map(groupByIdApplications)
   }
 
