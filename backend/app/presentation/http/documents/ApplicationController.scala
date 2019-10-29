@@ -3,8 +3,8 @@ package presentation.http.documents
 import javax.inject.Inject
 import persistence.services.ServiceFactory
 import persistence.services.documents.ApplicationService
+import persistence.services.user.ClientService
 import persistence.tables.documents.Application
-import persistence.tables.relations.ProductApplication
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
 
@@ -51,9 +51,8 @@ class ApplicationController @Inject()(cc: ControllerComponents)(implicit ex: Exe
   }
 
   def getAll: Action[AnyContent] = Action.async { _ =>
-    service.getAllApplicationWithProducts map {
-      case requests =>
-        Ok(Json.toJson(requests))
+    service.getAllApplications map {
+      case requests => Ok(Json.toJson(requests))
       case _ => NotFound
     } recover {
       case e: Exception => InternalServerError
@@ -61,8 +60,8 @@ class ApplicationController @Inject()(cc: ControllerComponents)(implicit ex: Exe
   }
 
   def get(id: Int): Action[AnyContent] = Action.async { _ =>
-    service.getProductsForApplication(id) map {
-      case requests => Ok(Json.toJson(requests))
+    service.getAllApplications map {
+      case requests => Ok(Json.toJson(requests.filter(_.id == id).head))
       case _ => NotFound
     } recover {
       case e: Exception => InternalServerError
