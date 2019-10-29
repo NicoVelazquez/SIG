@@ -53,9 +53,7 @@ export class ManagerComponent implements OnInit {
       }
       case 'controlled': {
         this.filteredApplications = this.applications.filter(e =>
-          // TODO (NV) - descomentar!!!!!!!!!!!!
-          // e.client.toLowerCase().includes(this.clientSearch.toLowerCase()) && e.state.toLowerCase() === 'controlada'
-          e.state.toLowerCase() === 'controlada'
+          e.client.toLowerCase().includes(this.clientSearch.toLowerCase()) && e.state.toLowerCase() === 'controlada'
         );
         break;
       }

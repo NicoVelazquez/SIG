@@ -30,7 +30,7 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.aRoute.params.subscribe(params => {
       this.rs.getApplication(params.id).then(data => {
-        this.application = data[0];
+        this.application = data;
         this.updatePrices();
         console.log(this.application);
       });

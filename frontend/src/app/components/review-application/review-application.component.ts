@@ -35,7 +35,7 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
 
     this.subscription = this.aRoute.params.subscribe(params => {
       this.rs.getApplication(params.id).then(data => {
-        this.application = data[0];
+        this.application = data;
         if (this.application.state.toLowerCase() === 'en almacen') {
           this.application.products.forEach(e => {
             e.accepted = 0;
