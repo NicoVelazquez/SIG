@@ -3,7 +3,7 @@ package presentation.http.documents
 import javax.inject.Inject
 import persistence.services.ServiceFactory
 import persistence.services.documents.ApplicationService
-import persistence.services.relations.ProductApplicationService
+import persistence.services.relations.{ClientProductService, ProductApplicationService}
 import persistence.services.user.ClientService
 import persistence.tables.documents.{Application, ApplicationUpdate}
 import persistence.tables.relations.ProductApplication
@@ -17,6 +17,7 @@ class ApplicationController @Inject()(cc: ControllerComponents)(implicit ex: Exe
 
   private val service: ApplicationService = ServiceFactory.applicationService
   var productApplicationService: ProductApplicationService = ServiceFactory.productApplicationService
+  var clientProductService: ClientProductService = ServiceFactory.clientProductService
 
   def create(): Action[JsValue] = Action.async(parse.json) { request =>
     Json.fromJson[Application](request.body).fold(
@@ -39,10 +40,12 @@ class ApplicationController @Inject()(cc: ControllerComponents)(implicit ex: Exe
         service.update(update) map {
           case true =>
             // Update accepted & good
-            model.products.map(p =>
+            model.products.map(p => {
+              if(model.state == "Rechazada") {
+                clientProductService.restoreProductsFromClient(model.clientId, p.id, p.quantity)
+              }
               productApplicationService.update(ProductApplication(p.paId, p.quantity, model.id, p.id, None, p.accepted, p.good))
-            )
-//            Future.sequence(list)
+            })
             Ok
           case false => NotFound
         }
