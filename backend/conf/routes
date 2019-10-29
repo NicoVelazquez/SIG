@@ -4,54 +4,54 @@
 # ~~~~
 
 # Map static resources from the /public folder to the /assets URL path
-GET           /assets/*file                            controllers.Assets.versioned(path="/public", file: Asset)
+GET           /assets/*file                          controllers.Assets.versioned(path="/public", file: Asset)
 
 # -------------------------------------------------------------------------------------------------------------------- #
 
-POST          /client/:id/applications                 presentation.http.user.ClientController.createClientApplication(id: Int)
-GET           /client/:id/applications                 presentation.http.user.ClientController.getClientApplications(id: Int)
-DELETE        /client/:id/applications/:appId          presentation.http.user.ClientController.deleteClientApplication(id: Int, appId: Int)
-GET           /client/:id/products                     presentation.http.user.ClientController.getClientProducts(id: Int)
+POST          /client/:id/applications               presentation.http.user.ClientController.createClientApplication(id: Int)
+GET           /client/:id/applications               presentation.http.user.ClientController.getClientApplications(id: Int)
+POST          /client/:id/applications/:appId        presentation.http.user.ClientController.deleteClientApplication(id: Int, appId: Int)
+GET           /client/:id/products                   presentation.http.user.ClientController.getClientProducts(id: Int)
 
 #POST          /manager/applications/:appId/controlled        presentation.http.user.ManagerController.controlApplication(appId: Int)
 #POST          /manager/applications/:appId/accept            presentation.http.user.ManagerController.acceptApplication(appId: Int)
 #POST          /manager/applications/:appId/deny              presentation.http.user.ManagerController.denyApplication(appId: Int)
 #POST          /manager/applications/:appId/note        presentation.http.user.ManagerController.createNote(appId: Int)
 
-POST          /login                                   presentation.http.login.LoginController.login
+POST          /login                                 presentation.http.login.LoginController.login
 
-GET           /applications/:id/note                   presentation.http.note.NoteController.getNoteForApplication(id: Int)
+GET           /applications/:id/note                 presentation.http.note.NoteController.getNoteForApplication(id: Int)
 
 # -------------------------------------------------------------------------------------------------------------------- #
 
-POST          /client                                  presentation.http.user.ClientController.create
-GET           /client/:id                              presentation.http.user.ClientController.get(id: Int)
-PUT           /client                                  presentation.http.user.ClientController.update
-DELETE        /client/:id                              presentation.http.user.ClientController.delete(id: Int)
-GET           /client                                  presentation.http.user.ClientController.getAll
+POST          /client                                presentation.http.user.ClientController.create
+GET           /client/:id                            presentation.http.user.ClientController.get(id: Int)
+PUT           /client                                presentation.http.user.ClientController.update
+DELETE        /client/:id                            presentation.http.user.ClientController.delete(id: Int)
+GET           /client                                presentation.http.user.ClientController.getAll
 
-POST          /manager                                 presentation.http.user.ManagerController.create
-GET           /manager/:id                             presentation.http.user.ManagerController.get(id: Int)
-PUT           /manager                                 presentation.http.user.ManagerController.update
-DELETE        /manager/:id                             presentation.http.user.ManagerController.delete(id: Int)
-GET           /manager                                 presentation.http.user.ManagerController.getAll
+POST          /manager                               presentation.http.user.ManagerController.create
+GET           /manager/:id                           presentation.http.user.ManagerController.get(id: Int)
+PUT           /manager                               presentation.http.user.ManagerController.update
+DELETE        /manager/:id                           presentation.http.user.ManagerController.delete(id: Int)
+GET           /manager                               presentation.http.user.ManagerController.getAll
 
-POST          /tracking                                presentation.http.documents.TrackingController.create
-GET           /tracking/:id                            presentation.http.documents.TrackingController.get(id: Int)
-PUT           /tracking                                presentation.http.documents.TrackingController.update
-DELETE        /tracking/:id                            presentation.http.documents.TrackingController.delete(id: Int)
-GET           /tracking                                presentation.http.documents.TrackingController.getAll
+POST          /tracking                              presentation.http.documents.TrackingController.create
+GET           /tracking/:id                          presentation.http.documents.TrackingController.get(id: Int)
+PUT           /tracking                              presentation.http.documents.TrackingController.update
+DELETE        /tracking/:id                          presentation.http.documents.TrackingController.delete(id: Int)
+GET           /tracking                              presentation.http.documents.TrackingController.getAll
 
-POST          /note                                    presentation.http.note.NoteController.create
-GET           /note/:id                                presentation.http.note.NoteController.get(id: Int)
-PUT           /note                                    presentation.http.note.NoteController.update
-DELETE        /note/:id                                presentation.http.note.NoteController.delete(id: Int)
-GET           /note                                    presentation.http.note.NoteController.getAll
+POST          /note                                  presentation.http.note.NoteController.create
+GET           /note/:id                              presentation.http.note.NoteController.get(id: Int)
+PUT           /note                                  presentation.http.note.NoteController.update
+DELETE        /note/:id                              presentation.http.note.NoteController.delete(id: Int)
+GET           /note                                  presentation.http.note.NoteController.getAll
 
-POST          /applications                            presentation.http.documents.ApplicationController.create
-GET           /applications/:id                        presentation.http.documents.ApplicationController.get(id: Int)
-PUT           /applications                            presentation.http.documents.ApplicationController.update
-DELETE        /applications/:id                        presentation.http.documents.ApplicationController.delete(id: Int)
-GET           /applications                            presentation.http.documents.ApplicationController.getAll
+POST          /applications                          presentation.http.documents.ApplicationController.create
+GET           /applications/:id                      presentation.http.documents.ApplicationController.get(id: Int)
+PUT           /applications                          presentation.http.documents.ApplicationController.update
+DELETE        /applications/:id                      presentation.http.documents.ApplicationController.delete(id: Int)
+GET           /applications                          presentation.http.documents.ApplicationController.getAll
 
-GET           /lot                                     presentation.http.LotController.getAll
+GET           /lot                                   presentation.http.LotController.getAll
