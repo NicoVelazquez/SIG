@@ -106,15 +106,15 @@ class ClientController @Inject()(cc: ControllerComponents)(implicit ex: Executio
   }
 
   def getClientApplications(clientId: Int): Action[AnyContent] = Action.async { _ =>
-    applicationService.getClientApplications(clientId) map {
+    applicationService.getAllApplications map {
       case list =>
-        val update = list.groupBy(_.id).map((e: (Int, List[ApplicationResponse])) => {
-          val application = e._2.head
-          val products: List[ProductDTO] = e._2.flatMap(_.products)
-          ApplicationResponse(application.id, application.client, application.date, application.cost, application.state, application.description,
-            application.observation, application.operator_acceptance_date, application.collectionDate, products)
-        })
-        Ok(Json.toJson(update))
+//        val update = list.groupBy(_.id).map((e: (Int, List[ApplicationResponse])) => {
+//          val application = e._2.head
+//          val products: List[ProductDTO] = e._2.flatMap(_.products)
+//          ApplicationResponse(application.id, application.client, application.date, application.cost, application.state, application.description,
+//            application.observation, application.operator_acceptance_date, application.collectionDate, products)
+//        })
+        Ok(Json.toJson(list.filter(_.clientId == clientId)))
       case _ => NotFound
     } recover {
       case e: Exception => InternalServerError
