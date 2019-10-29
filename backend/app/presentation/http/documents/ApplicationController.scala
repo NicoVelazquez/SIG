@@ -42,7 +42,9 @@ class ApplicationController @Inject()(cc: ControllerComponents)(implicit ex: Exe
             // Update accepted & good
             model.products.map(p => {
               if(model.state == "Rechazada") {
-                clientProductService.restoreProductsFromClient(model.clientId, p.id, p.quantity)
+                clientProductService.getProductsFromClient(model.clientId, p.id) map { cp =>
+                  clientProductService.update(cp.copy(quantity = cp.quantity+p.quantity))
+                }
               }
               productApplicationService.update(ProductApplication(p.paId, p.quantity, model.id, p.id, None, p.accepted, p.good))
             })
