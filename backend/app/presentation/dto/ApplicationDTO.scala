@@ -31,8 +31,8 @@ object ApplicationResponse {
   implicit val appcli: OFormat[ApplicationResponse] = Json.format[ApplicationResponse]
 }
 
-case class ApplicationsDTO(id: Int,
-                           clientId: Int,
+case class Applications(id: Int,
+                           client: String,
                            date: Date,
                            cost: Int,
                            state: String,
@@ -40,8 +40,8 @@ case class ApplicationsDTO(id: Int,
                            observation: Option[String],
                            operator_acceptance_date: Option[Date],
                            collectionDate: Option[Date],
-                           products: List[ProductDTO])
-object ApplicationsDTO {
+                           products: List[ProductApplications])
+object Applications {
   import play.api.libs.json._
-  implicit val apps: OFormat[ApplicationsDTO] = Json.format[ApplicationsDTO]
+  implicit val apps: OFormat[Applications] = Json.format[Applications]
 }
