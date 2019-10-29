@@ -82,7 +82,7 @@ export class HttpRequestsService {
   }
 
   deleteClientApplication(application: any) {
-    return this.http.delete<any[]>(`${this.url}/client/${this.currentUser.id}/applications/${application.id}`, application).toPromise();
+    return this.http.post<any[]>(`${this.url}/client/${this.currentUser.id}/applications/${application.id}`, application).toPromise();
 
     // MOCK
     // return Promise.resolve(true);

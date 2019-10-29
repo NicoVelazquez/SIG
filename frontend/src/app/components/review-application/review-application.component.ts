@@ -62,6 +62,7 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
   }
 
   deleteApplication() {
+    console.log(this.application);
     this.rs.deleteClientApplication(this.application).then(() => {
       this.router.navigate(['home']);
     });
