@@ -75,7 +75,7 @@ class ClientService extends Service[Client] {
       } yield (a, p, l)
     }
     ctx.run(q.filter(_._1.clientId == lift(clientId)))
-      .map(_.map(cp => ProductDTO(cp._2.id, cp._2.name, cp._3.expirationDate, cp._2.lotId, cp._1.quantity)))
+      .map(_.map(cp => ProductDTO(cp._2.id, cp._2.name, cp._3.expirationDate, cp._2.lotId, cp._1.quantity)).filter(_.quantity > 0))
   }
 
 }
