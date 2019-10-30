@@ -12,7 +12,7 @@ import persistence.tables.relations.ProductApplication
 import persistence.tables.user.Client
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
-import presentation.dto.{ApplicationDTO, ApplicationResponse, ProductDTO}
+import presentation.dto.{ApplicationDTO, ProductDTO}
 
 import scala.concurrent.{ExecutionContext, Future}
 
