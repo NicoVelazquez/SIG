@@ -32,7 +32,6 @@ export class NewApplicationComponent implements OnInit {
       date: this.parseDate(new Date(Date.now()))
     });
     this.rs.getClientProducts().then(data => {
-      console.log(data);
       this.products = data;
     });
   }

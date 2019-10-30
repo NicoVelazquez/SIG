@@ -31,6 +31,7 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
     this.subscription = this.aRoute.params.subscribe(params => {
       this.rs.getApplication(params.id).then(data => {
         this.application = data;
+        console.log(this.application);
         this.updatePrices();
       });
     });
@@ -62,8 +63,7 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
     let debitPrice = 0;
     this.application.products.forEach(e => {
       creditPrice += (e.accepted * e.price);
-      // TODO (NV) - me falta multiplicar por el precio del operador
-      debitPrice += ((e.quantity - e.accepted) * e.weight * this.application.cost);
+      debitPrice += ((e.quantity - e.accepted) * (e.weight / 100) * this.application.cost);
     });
 
     this.noteForm.patchValue({

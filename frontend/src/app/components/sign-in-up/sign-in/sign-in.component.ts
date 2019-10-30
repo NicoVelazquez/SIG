@@ -50,11 +50,8 @@ export class SignInComponent implements OnInit {
         this.signInForm.reset();
       });
     }).catch(err => {
-      if (err.code === 'auth/wrong-password') {
-        this.invalidEmailOrPassword = true;
-      } else {
-        console.log(err);
-      }
+      this.invalidEmailOrPassword = true;
+      console.log(err);
     });
   }
 }
