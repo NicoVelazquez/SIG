@@ -11,7 +11,7 @@ object ApplicationDTO {
   implicit val app: OFormat[ApplicationDTO] = Json.format[ApplicationDTO]
 }
 
-case class ApplicationProductDTO(productId: Int, quantity: Int)
+case class ApplicationProductDTO(productId: Int, quantity: Int, reason: String)
 
 object ApplicationProductDTO {
 

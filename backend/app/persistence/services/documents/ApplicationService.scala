@@ -70,7 +70,7 @@ class ApplicationService extends Service[Application] {
       .map(_.map((cp: (Application, ProductApplication, Product, Lot, Client)) =>
         applicationToApplications(cp._1,
           List(ProductApplications(cp._2.id, cp._3.id, cp._3.name, cp._4.expirationDate, cp._4.name, cp._2.quantity, cp._3.weight,
-            cp._4.price, cp._2.accepted, cp._2.good)), cp._5.name)))
+            cp._4.price, cp._2.accepted, cp._2.good, cp._2.received)), cp._5.name)))
       .map(groupByIdApplications)
   }
 

@@ -9,7 +9,7 @@ object ProductDTO {
 }
 
 case class ProductApplications(paId: Int, id: Int, name: String, date: Date, lot: String, quantity: Int, weight: Double, price: Double,
-                               accepted: Option[Int], good: Option[Int])
+                               accepted: Option[Int], good: Option[Int], received: Option[Int])
 object ProductApplications {
   import play.api.libs.json._
   implicit val prod: OFormat[ProductApplications] = Json.format[ProductApplications]

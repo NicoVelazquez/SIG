@@ -93,7 +93,7 @@ class ClientController @Inject()(cc: ControllerComponents)(implicit ex: Executio
                   clientProductService.restoreProductsFromClient(clientId, productDTO.productId, cp.quantity - productDTO.quantity)
                 }
                 val productApplication = ProductApplication(0, productDTO.quantity, applicationId, productDTO.productId,
-                  None, None, None)
+                  productDTO.reason, None, None, None, None)
                 // TODO: Add products to product/application relation
                 productApplicationService.create(productApplication)
               })

@@ -6,9 +6,11 @@ case class ProductApplication(override val id: Int,
                               quantity: Int,
                               applicationId: Int,
                               productId: Int,
+                              reason: String,
                               productState: Option[String],
                               accepted: Option[Int],
-                              good: Option[Int]) extends DAOModel
+                              good: Option[Int],
+                              received: Option[Int]) extends DAOModel
 
 object ProductApplication {
   import play.api.libs.json._

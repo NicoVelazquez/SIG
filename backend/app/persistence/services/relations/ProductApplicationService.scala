@@ -18,7 +18,9 @@ class ProductApplicationService extends Service[ProductApplication] {
         _.quantity -> lift(t.quantity),
         _.applicationId -> lift(t.applicationId),
         _.accepted -> lift(t.accepted),
-        _.good -> lift(t.good)
+        _.good -> lift(t.good),
+        _.reason -> lift(t.reason),
+        _.received -> lift(t.received)
       ).onConflictIgnore.returning(_.id))
 
   override def update(t: ProductApplication): Future[Boolean] =
@@ -30,7 +32,8 @@ class ProductApplicationService extends Service[ProductApplication] {
         _.quantity -> lift(t.quantity),
         _.applicationId -> lift(t.applicationId),
         _.accepted -> lift(t.accepted),
-        _.good -> lift(t.good)
+        _.good -> lift(t.good),
+        _.received -> lift(t.received)
       )
     ).map {
       case 1 => true

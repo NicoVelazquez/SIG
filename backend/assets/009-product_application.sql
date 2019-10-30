@@ -12,7 +12,9 @@ create table product_application
 			references product,
 	product_state varchar(256),
 	accepted integer,
-	good integer
+	good integer,
+	reason varchar(256),
+	received varchar(256)
 );
 
 alter table product_application owner to postgres;

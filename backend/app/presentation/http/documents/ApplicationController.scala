@@ -46,7 +46,8 @@ class ApplicationController @Inject()(cc: ControllerComponents)(implicit ex: Exe
                   clientProductService.update(cp.copy(quantity = cp.quantity+p.quantity))
                 }
               }
-              productApplicationService.update(ProductApplication(p.paId, p.quantity, model.id, p.id, None, p.accepted, p.good))
+              // Reason is not updated.
+              productApplicationService.update(ProductApplication(p.paId, p.quantity, model.id, p.id, "", None, p.accepted, p.good, p.received))
             })
             Ok
           case false => NotFound
