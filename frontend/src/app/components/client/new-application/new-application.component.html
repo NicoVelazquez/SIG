@@ -73,7 +73,7 @@
                    [(ngModel)]="selectedQuantity">
 
             <select class="selectType uk-select" id="type" (change)="selectType($event)">
-              <option *ngFor="let t of types">{{t}}</option>
+              <option *ngFor="let r of reasons">{{r}}</option>
             </select>
 
             <div class="uk-flex uk-flex-center">
@@ -81,7 +81,7 @@
                       [disabled]="selectedProduct === null ||
                       selectedQuantity <= 0 ||
                       selectedQuantity > selectedProduct.quantity ||
-                      selectedType === null">
+                      selectedReason === null">
                 Agregar Producto
               </button>
             </div>
