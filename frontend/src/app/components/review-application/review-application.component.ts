@@ -75,9 +75,6 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
     this.application.state = 'Controlada';
     this.application.observation = this.observation;
 
-    console.log(this.application);
-
-    // TODO (NV) - descomentar cuando curi arregle el updateDeApplication
     this.rs.updateApplication(this.application).then(() => {
       this.router.navigate(['home']);
     });

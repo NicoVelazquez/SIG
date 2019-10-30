@@ -86,9 +86,7 @@ export class NewApplicationComponent implements OnInit {
     this.selectedProducts.forEach(e => {
       newApplication.products.push({productId: e.id, quantity: e.selectedQuantity, reason: e.selectedType});
     });
-    console.log(newApplication);
 
-    // TODO (NV) - descomentar cuando curi arregle el createApplication
     this.rs.createClientApplication(newApplication).then(() => {
       this.router.navigate(['home']);
     }).catch(err => {
