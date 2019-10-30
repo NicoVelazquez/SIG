@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 export class NewApplicationComponent implements OnInit {
 
   applicationForm: FormGroup;
-  headers = ['Nombre', 'Lote', 'Fecha de expiración', 'Cantidad'];
+  headers = ['Nombre', 'Lote', 'Fecha de expiración', 'Cantidad', 'Razón', ''];
   products = [];
 
   selectedProducts = [];
@@ -19,6 +19,9 @@ export class NewApplicationComponent implements OnInit {
   selectedQuantity = 0;
 
   moreProduct = true;
+
+  types = ['Rechazo por no pedido', 'Rechazo por rotura', 'Devolucion por vencido', 'Devolución por rotura'];
+  selectedType = 'Rechazo por no pedido';
 
   constructor(private fb: FormBuilder, private rs: HttpRequestsService, private router: Router) {
     this.applicationForm = fb.group({
@@ -47,15 +50,29 @@ export class NewApplicationComponent implements OnInit {
     this.selectedProduct = this.products.filter(e => e.id === +$event.target.value)[0];
   }
 
+  selectType($event: any) {
+    this.selectedType = $event.target.value;
+  }
+
   addProduct() {
     this.moreProduct = false;
     this.selectedProduct.selectedQuantity = this.selectedQuantity;
+    this.selectedProduct.selectedType = this.selectedType;
     this.selectedProducts.push(this.selectedProduct);
     const index = this.products.findIndex(e => e.id === this.selectedProduct.id);
     this.products.splice(index, 1);
 
+    this.selectedType = 'Rechazo por no pedido';
     this.selectedProduct = null;
     this.selectedQuantity = 0;
+  }
+
+  removeProduct(p: any) {
+    const index = this.selectedProducts.findIndex(e => e.id === p.id);
+    this.selectedProducts.splice(index, 1);
+    delete p.selectedQuantity;
+    delete p.selectedType;
+    this.products.push(p);
   }
 
   isValidApplication() {
@@ -67,15 +84,16 @@ export class NewApplicationComponent implements OnInit {
 
     newApplication.products = [];
     this.selectedProducts.forEach(e => {
-      newApplication.products.push({productId: e.id, quantity: e.selectedQuantity});
+      newApplication.products.push({productId: e.id, quantity: e.selectedQuantity, type: e.selectedType});
     });
+    console.log(newApplication);
 
-    this.rs.createClientApplication(newApplication).then(() => {
-      this.router.navigate(['home']);
-    }).catch(err => {
-      console.log('Error en creacion de aplicacion');
-      console.log(err);
-    });
+    // TODO (NV) - descomentar cuando curi arregle el createApplication
+    // this.rs.createClientApplication(newApplication).then(() => {
+    //   this.router.navigate(['home']);
+    // }).catch(err => {
+    //   console.log('Error en creacion de aplicacion');
+    //   console.log(err);
+    // });
   }
-
 }

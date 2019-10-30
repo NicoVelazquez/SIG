@@ -42,6 +42,10 @@
               <td>{{p?.lot}}</td>
               <td>{{p?.date | date}}</td>
               <td>{{p?.selectedQuantity}}</td>
+              <td>{{p?.selectedType}}</td>
+              <td (click)="removeProduct(p)">
+                <a uk-icon="icon: close" style="color: red"></a>
+              </td>
             </tr>
             </tbody>
           </table>
@@ -65,14 +69,19 @@
             </select>
 
             <input class="selectQuantity uk-input" id="quantity" type="number" min="0"
-                   max="{{selectedProduct?.quantity}}"
+                   max="{{selectedProduct?.quantity}}" pattern="[0-9]*"
                    [(ngModel)]="selectedQuantity">
+
+            <select class="selectType uk-select" id="type" (change)="selectType($event)">
+              <option *ngFor="let t of types">{{t}}</option>
+            </select>
 
             <div class="uk-flex uk-flex-center">
               <button class="add-product uk-button uk-button-primary" style="width: auto" (click)="addProduct()"
                       [disabled]="selectedProduct === null ||
                       selectedQuantity <= 0 ||
-                      selectedQuantity > selectedProduct.quantity">
+                      selectedQuantity > selectedProduct.quantity ||
+                      selectedType === null">
                 Agregar Producto
               </button>
             </div>

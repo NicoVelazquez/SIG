@@ -110,6 +110,8 @@ export class ManagerComponent implements OnInit {
       this.router.navigate(['/review-application/' + application.id], {queryParams: {state: 'en almacen'}});
     } else if (application.state.toLowerCase() === 'nueva') {
       this.router.navigate(['/review-application/' + application.id], {queryParams: {state: 'nueva'}});
+    } else if (application.state.toLowerCase() === 'rechazada') {
+      this.router.navigate(['/review-application/' + application.id], {queryParams: {state: 'rechazada'}});
     } else if (application.state.toLowerCase() === 'controlada') {
       this.router.navigate(['/review-application/' + application.id], {queryParams: {state: 'controlada'}});
     } else if (application.state.toLowerCase() === 'con nota') {

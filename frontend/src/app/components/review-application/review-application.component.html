@@ -4,7 +4,7 @@
   <div class="header uk-flex uk-flex-around uk-margin-medium-top">
     <h2 style="margin: 0">Solicitud de Devolución N˚{{application?.id}}</h2>
     <button class="uk-button uk-button-primary toggleTabButton" (click)="finishControlling()"
-            *ngIf="state === 'en almacen'" [disabled]="!canFinishControlling || this.observations === ''">
+            *ngIf="state === 'en almacen'" [disabled]="!canFinishControlling || this.observation === ''">
       Terminar Control
     </button>
     <div class="buttons" *ngIf="state === 'nueva' && userType === 'manager'">
@@ -12,7 +12,8 @@
               (click)="accept_denyApplication('Aceptada')">
         Aceptar
       </button>
-      <button class="uk-button uk-button-danger" (click)="accept_denyApplication('Rechazada')">
+      <button class="uk-button uk-button-danger" (click)="accept_denyApplication('Rechazada')"
+              [disabled]="this.observation === ''" uk-tooltip="title: Completar observaciones para rechazar">
         Rechazar
       </button>
     </div>
@@ -51,6 +52,9 @@
           <tr>
             <th *ngFor="let header of headers">{{header}}</th>
             <th *ngIf="state === 'en almacen'">
+              # Recibidos
+            </th>
+            <th *ngIf="state === 'en almacen'">
               # Aceptados
             </th>
             <th *ngIf="state === 'en almacen'">
@@ -66,13 +70,18 @@
             <td>{{p?.quantity}}</td>
             <td *ngIf="state === 'en almacen'">
               <input class="selectQuantity uk-input" type="number" min="0"
-                     max="{{p?.quantity}}"
+                     pattern="[0-9]*"
+                     [(ngModel)]="p.received">
+            </td>
+            <td *ngIf="state === 'en almacen'">
+              <input class="selectQuantity uk-input" type="number" min="0"
+                     max="{{p?.quantity}}" pattern="[0-9]*"
                      [(ngModel)]="p.accepted"
                      (keyup)="validateAcceptedGoodQuantity($event, p)">
             </td>
             <td *ngIf="state === 'en almacen'">
               <input class="selectQuantity uk-input" type="number" min="0"
-                     max="{{p?.accepted || 0}}"
+                     max="{{p?.accepted || 0}}" pattern="[0-9]*"
                      [(ngModel)]="p.good"
                      (keyup)="validateAcceptedGoodQuantity($event, p)">
             </td>
@@ -81,15 +90,20 @@
         </table>
       </div>
 
-      <div class="uk-margin" *ngIf="state === 'en almacen'">
-        <label class="uk-form-label" for="observation">Observación del Controlador</label>
+      <div class="uk-margin" *ngIf="state === 'en almacen' || state === 'nueva'">
+        <label class="uk-form-label" for="observation" *ngIf="state === 'en almacen'">
+          Observación del Controlador
+        </label>
+        <label class="uk-form-label" for="observation" *ngIf="state === 'nueva'">
+          Razón de Rechazo
+        </label>
         <div class="uk-form-controls">
           <textarea class="uk-textarea" id="observation" rows="5" placeholder="Observaciones"
                     [(ngModel)]="observation"></textarea>
         </div>
       </div>
 
-      <div class="uk-margin" *ngIf="state === 'controlada'">
+      <div class="uk-margin" *ngIf="state === 'controlada' || state === 'rechazada'">
         <label class="uk-form-label" for="observation2">Observación del Controlador</label>
         <div class="uk-form-controls">
           <textarea class="uk-textarea" id="observation2" rows="5"

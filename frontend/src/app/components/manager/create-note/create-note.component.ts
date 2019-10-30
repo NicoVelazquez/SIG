@@ -14,7 +14,7 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   noteForm: FormGroup;
   application: any;
-  headers = ['Nombre', 'Fecha', 'Lote', 'Cantidad', '# Aceptadas', '# Buenas'];
+  headers = ['Nombre', 'Fecha', 'Lote', 'Cantidad', '# Recibidos', '# Aceptadas', '# Buenas'];
   canFinishNote = true;
 
   constructor(private fb: FormBuilder, private rs: HttpRequestsService, private router: Router, private aRoute: ActivatedRoute) {
@@ -63,7 +63,9 @@ export class CreateNoteComponent implements OnInit, OnDestroy {
     let debitPrice = 0;
     this.application.products.forEach(e => {
       creditPrice += (e.accepted * e.price);
-      debitPrice += ((e.quantity - e.accepted) * (e.weight / 100) * this.application.cost);
+
+      // TODO (NV) - chequear que esta formula este bien cuando curi arregle el updateApplication
+      debitPrice += ((e.received - e.accepted) * (e.weight / 100) * this.application.cost);
     });
 
     this.noteForm.patchValue({

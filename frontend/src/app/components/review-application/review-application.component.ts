@@ -36,8 +36,10 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
     this.subscription = this.aRoute.params.subscribe(params => {
       this.rs.getApplication(params.id).then(data => {
         this.application = data;
+        console.log(this.application);
         if (this.application.state.toLowerCase() === 'en almacen') {
           this.application.products.forEach(e => {
+            e.received = 0;
             e.accepted = 0;
             e.good = 0;
           });
@@ -52,6 +54,9 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
 
   accept_denyApplication(action: string) {
     this.application.state = action;
+    if (action === 'Rechazada') {
+      this.application.observation = this.observation;
+    }
     this.rs.updateApplication(this.application).then(() => {
       this.router.navigate(['home']);
     }).catch(err => {
@@ -69,12 +74,21 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
   finishControlling() {
     this.application.state = 'Controlada';
     this.application.observation = this.observation;
-    this.rs.updateApplication(this.application).then(() => {
-      this.router.navigate(['home']);
-    });
+
+    console.log(this.application);
+
+    // TODO (NV) - descomentar cuando curi arregle el updateDeApplication
+    // this.rs.updateApplication(this.application).then(() => {
+    //   this.router.navigate(['home']);
+    // });
   }
 
   validateAcceptedGoodQuantity($event: any, product: any) {
-    this.canFinishControlling = (product.quantity >= product.accepted && product.accepted >= product.good && product.good >= 0);
+    this.canFinishControlling = (
+      product.received >= product.accepted &&
+      product.quantity >= product.accepted &&
+      product.accepted >= product.good &&
+      product.good >= 0
+    );
   }
 }

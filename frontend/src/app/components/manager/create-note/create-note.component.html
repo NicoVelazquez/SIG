@@ -97,15 +97,16 @@
             <td>{{p?.date | date}}</td>
             <td>{{p?.lot}}</td>
             <td>{{p?.quantity}}</td>
+            <td>{{p?.received}}</td>
             <td>
               <input class="selectQuantity uk-input" type="number" min="0"
-                     max="{{p?.quantity}}"
+                     max="{{p?.quantity}}" pattern="[0-9]*"
                      [(ngModel)]="p.accepted"
                      (keyup)="validateAcceptedGoodQuantity($event, p)">
             </td>
             <td>
               <input class="selectQuantity uk-input" type="number" min="0"
-                     max="{{p?.accepted || 0}}"
+                     max="{{p?.accepted || 0}}" pattern="[0-9]*"
                      [(ngModel)]="p.good"
                      (keyup)="validateAcceptedGoodQuantity($event, p)">
             </td>

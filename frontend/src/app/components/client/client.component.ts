@@ -24,6 +24,8 @@ export class ClientComponent implements OnInit {
   reviewApplication(application: any) {
     if (application.state.toLowerCase() === 'nueva') {
       this.router.navigate(['/review-application/' + application.id], {queryParams: {state: 'nueva', user: 'client'}});
+    } else if (application.state.toLowerCase() === 'rechazada') {
+      this.router.navigate(['/review-application/' + application.id], {queryParams: {state: 'rechazada', user: 'client'}});
     } else {
       this.router.navigate(['/review-application/' + application.id]);
     }
