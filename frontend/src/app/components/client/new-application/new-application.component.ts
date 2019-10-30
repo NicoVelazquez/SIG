@@ -89,11 +89,11 @@ export class NewApplicationComponent implements OnInit {
     console.log(newApplication);
 
     // TODO (NV) - descomentar cuando curi arregle el createApplication
-    // this.rs.createClientApplication(newApplication).then(() => {
-    //   this.router.navigate(['home']);
-    // }).catch(err => {
-    //   console.log('Error en creacion de aplicacion');
-    //   console.log(err);
-    // });
+    this.rs.createClientApplication(newApplication).then(() => {
+      this.router.navigate(['home']);
+    }).catch(err => {
+      console.log('Error en creacion de aplicacion');
+      console.log(err);
+    });
   }
 }

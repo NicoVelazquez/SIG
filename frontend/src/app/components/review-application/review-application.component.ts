@@ -78,9 +78,9 @@ export class ReviewApplicationComponent implements OnInit, OnDestroy {
     console.log(this.application);
 
     // TODO (NV) - descomentar cuando curi arregle el updateDeApplication
-    // this.rs.updateApplication(this.application).then(() => {
-    //   this.router.navigate(['home']);
-    // });
+    this.rs.updateApplication(this.application).then(() => {
+      this.router.navigate(['home']);
+    });
   }
 
   validateAcceptedGoodQuantity($event: any, product: any) {
