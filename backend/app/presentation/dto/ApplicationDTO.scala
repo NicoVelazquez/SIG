@@ -20,24 +20,6 @@ object ApplicationProductDTO {
   implicit val apppro: OFormat[ApplicationProductDTO] = Json.format[ApplicationProductDTO]
 }
 
-case class ApplicationResponse(id: Int,
-                               client: String,
-                               date: Date,
-                               cost: Int,
-                               state: String,
-                               description: String,
-                               observation: Option[String],
-                               operator_acceptance_date: Option[Date],
-                               collectionDate: Option[Date],
-                               products: List[ProductDTO])
-
-object ApplicationResponse {
-
-  import play.api.libs.json._
-
-  implicit val appcli: OFormat[ApplicationResponse] = Json.format[ApplicationResponse]
-}
-
 case class Applications(id: Int,
                         clientId: Int,
                         client: String,
