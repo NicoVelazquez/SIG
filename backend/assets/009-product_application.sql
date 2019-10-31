@@ -14,7 +14,7 @@ create table product_application
 	accepted integer,
 	good integer,
 	reason varchar(256),
-	received varchar(256)
+	received integer
 );
 
 alter table product_application owner to postgres;

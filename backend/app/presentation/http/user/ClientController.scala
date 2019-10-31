@@ -86,18 +86,19 @@ class ClientController @Inject()(cc: ControllerComponents)(implicit ex: Executio
           case Some((_: Client, address: Address)) =>
             val application = Application(0, clientId, applicationDTO.date, address.cost,
               "Nueva", applicationDTO.description, None, None, None)
-            applicationService.create(application) map { applicationId =>
-              // TODO: Delete products from client/product relation. Fix quantity amount
-              applicationDTO.products.foreach(productDTO => {
-                clientProductService.getProductsFromClient(clientId, productDTO.productId).map { cp =>
+            applicationService.create(application) flatMap { applicationId =>
+              val deleteProductsFromClient: List[Future[Boolean]] = applicationDTO.products.map(productDTO => {
+                clientProductService.getProductsFromClient(clientId, productDTO.productId).flatMap { cp =>
                   clientProductService.restoreProductsFromClient(clientId, productDTO.productId, cp.quantity - productDTO.quantity)
                 }
-                val productApplication = ProductApplication(0, productDTO.quantity, applicationId, productDTO.productId,
-                  productDTO.reason, None, None, None, None)
-                // TODO: Add products to product/application relation
-                productApplicationService.create(productApplication)
               })
-              Created(applicationId.toString)
+              Future.sequence(deleteProductsFromClient).flatMap { _: List[Boolean] =>
+                Future.sequence(applicationDTO.products.map(productDTO => {
+                  val productApplication = ProductApplication(0, productDTO.quantity, applicationId, productDTO.productId,
+                    productDTO.reason, None, None, None, None)
+                  productApplicationService.create(productApplication)
+                })).map(_ => Created(applicationId.toString))
+              }
             }
           case None => Future.successful(NotFound(s"Client not found for id: $clientId"))
         }
