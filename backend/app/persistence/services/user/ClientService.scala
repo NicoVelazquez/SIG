@@ -76,7 +76,7 @@ class ClientService extends Service[Client] {
     }
     ctx.run(q.filter(_._1.clientId == lift(clientId)))
       .map(_.map(cp => ProductDTO(cp._2.id, cp._2.name, cp._3.expirationDate, cp._3.name, cp._1.quantity))
-        .filter(cp => cp.quantity > 0 && cp.date.compareTo(new Date()) > 0))
+        .filter(_.quantity > 0))
   }
 
 }
